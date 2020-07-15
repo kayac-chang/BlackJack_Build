@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  interface:
+    build:
+      context: "."
+      dockerfile: "./dockerfiles/interface/Dockerfile"
+    ports:
+      - "3004:80"
+    depends_on:
+      - backend
+      # - client
+
+  database:
+    build:
+      context: "."
+      dockerfile: "./dockerfiles/database/Dockerfile"
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+
+  backend:
+    build:
+      context: "."
+      dockerfile: "./dockerfiles/server/Dockerfile"
+    depends_on:
+      - database
+      - redis
