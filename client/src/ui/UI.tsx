@@ -9,15 +9,26 @@ import { useLocation } from 'react-router-dom';
 export default function UI() {
   const location = useLocation();
 
-  const inLobby = location.pathname.includes('lobby');
+  if (location.pathname.includes('lobby')) {
+    return (
+      <div className="fixedPage" style={{ pointerEvents: 'none' }}>
+        <Menu />
+        <Status />
+      </div>
+    );
+  }
 
-  return (
-    <div className="fixedPage" style={{ pointerEvents: 'none' }}>
-      <Menu />
-      <Status />
-      {!inLobby && <Detail />}
-      {!inLobby && <Decision />}
-      {!inLobby && <Bet />}
-    </div>
-  );
+  if (location.pathname.includes('game')) {
+    return (
+      <div className="fixedPage" style={{ pointerEvents: 'none' }}>
+        <Menu />
+        <Status />
+        <Detail />
+        <Decision />
+        <Bet />
+      </div>
+    );
+  }
+
+  return <div className="fixedPage" style={{ pointerEvents: 'none' }}></div>;
 }

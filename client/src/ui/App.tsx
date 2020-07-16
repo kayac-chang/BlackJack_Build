@@ -5,6 +5,7 @@ import { Center, Flex, Canvas } from './components';
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import Lobby from './lobby';
 import services from '../services';
+import Loading from './loading';
 
 type Props = {
   game: (canvas: HTMLCanvasElement) => void;
@@ -51,8 +52,9 @@ export default function App({ ui, game }: Props) {
     <Router>
       <Frame ui={ui}>
         <Routes basename={process.env.PUBLIC_URL}>
-          <Route path="game/:id" element={<Game game={game} />} />
+          <Route path="/" element={<Loading />} />
           <Route path="lobby" element={<Lobby />} />
+          <Route path="game/:id" element={<Game game={game} />} />
         </Routes>
       </Frame>
     </Router>
