@@ -15,6 +15,8 @@ services:
     build:
       context: "."
       dockerfile: "./dockerfiles/database/Dockerfile"
+    volumes:
+      - ./.db:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_USER=${DB_USER}
@@ -24,6 +26,11 @@ services:
     build:
       context: "."
       dockerfile: "./dockerfiles/server/Dockerfile"
+    command: sh -c "/wait && ./run"
     depends_on:
       - database
-      - redis
+    environment:
+      - WAIT_HOSTS=database:3306
+      - WAIT_HOSTS_TIMEOUT=60
+      - WAIT_SLEEP_INTERVAL=5
+      - WAIT_HOST_CONNECT_TIMEOUT=20
