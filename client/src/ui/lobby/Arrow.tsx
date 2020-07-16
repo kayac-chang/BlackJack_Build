@@ -3,14 +3,12 @@ import styles from './Lobby.module.scss';
 import ARROW from './assets/arrow.png';
 import clsx from 'clsx';
 
-type Props = {
-  reverse?: boolean;
-} & PropsWithChildren<HTMLAttributes<HTMLDivElement>>;
+type Props = PropsWithChildren<HTMLAttributes<HTMLDivElement>>;
 
-export default function Arrow({ style, reverse = false, onClick }: Props) {
+export default function Arrow({ className, style, onClick }: Props) {
   return (
-    <div className={styles.control} style={style} onClick={onClick}>
-      <img className={clsx(reverse && styles.reverse)} src={ARROW} alt={ARROW} />
+    <div className={clsx(styles.control, className)} style={style} onClick={onClick}>
+      <img src={ARROW} alt={ARROW} />
     </div>
   );
 }

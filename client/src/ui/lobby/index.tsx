@@ -108,8 +108,7 @@ export default function Lobby() {
 
           {page < range.max && (
             <Arrow
-              reverse={true}
-              style={{ left: `${93}%`, top: `${50}%` }}
+              style={{ left: `${93}%`, top: `${50}%`, transform: `scaleX(-1)` }}
               onClick={() => (focus ? cancelFocus() : next())}
             />
           )}
