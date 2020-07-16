@@ -6,7 +6,7 @@ COPY ./client .
 COPY .env .
 
 RUN apk add --no-cache python make g++
-
+RUN npm install -g yarn
 RUN yarn install && yarn build
 
 FROM nginx:alpine
