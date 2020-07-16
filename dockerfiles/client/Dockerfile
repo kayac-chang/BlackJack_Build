@@ -7,11 +7,11 @@ COPY .env .
 
 RUN apk add --no-cache python make g++
 
-RUN npm ci && npm run build
+RUN yarn install && yarn build
 
 FROM nginx:alpine
 
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/build /usr/share/nginx/html
 COPY ./client/locales /usr/share/nginx/html/locales
 
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
