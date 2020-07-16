@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+message SubOrder {
+    string sub_order_id = 1;
+    string order_id = 2;
+
+    enum State {
+        Pending = 0;
+        Completed = 1;
+        Rejected = 2;
+        Issue = 3;
+    }
+    State state = 3;
+    uint64 bet = 4;
+
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+    google.protobuf.Timestamp completed_at = 7;
+}
