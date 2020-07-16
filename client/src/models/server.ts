@@ -1,0 +1,31 @@
+export enum USER {
+  LOGIN = 8003050,
+  UPDATE = 8003095,
+  BET = 8003007,
+  ACTION = 8003009,
+}
+
+export enum ROOM {
+  ADD = 8003001,
+  UPDATE = 8003002,
+  JOIN = 8003003,
+}
+
+export enum ROUND {
+  BET_START = 8003020,
+  COUNT_DOWN = 8003006,
+  BET_END = 8003021,
+  SETTLE = 8003022,
+  BEGIN = 8003036,
+  DEAL = 8003033,
+  TURN = 8003034,
+  ACTION = 8003008,
+}
+
+export enum SEAT {
+  UPDATE = 8003030,
+}
+
+export enum SYSTEM {
+  ERROR = 8003091,
+}

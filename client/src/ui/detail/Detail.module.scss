@@ -1,0 +1,60 @@
+@mixin icon {
+  svg {
+    width: 5vmin;
+    height: 5vmin;
+  }
+
+  @media screen and (min-device-width: 1200px) {
+    svg {
+      width: 2vmin;
+      height: 2vmin;
+    }
+  }
+}
+
+.detail {
+  position: absolute;
+  top: 0;
+
+  margin: 16px;
+
+  display: flex;
+  align-items: center;
+
+  & > * {
+    margin: 0 4px;
+  }
+}
+
+.back {
+  @include icon();
+
+  padding: 8px;
+
+  pointer-events: all;
+  cursor: pointer;
+}
+
+$unit: 16px;
+
+.field {
+  background: rgba($color: #111, $alpha: 0.6);
+
+  box-shadow: inset 0px 0px 8px 0px rgba(0, 0, 0, 0.75);
+
+  border-radius: $unit;
+
+  padding: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  * {
+    margin: 0 4px;
+  }
+
+  h5 {
+    color: rgb(255, 159, 10);
+  }
+}

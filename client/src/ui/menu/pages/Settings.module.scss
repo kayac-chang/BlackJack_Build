@@ -1,0 +1,41 @@
+.settings {
+  section {
+    display: flex;
+    flex-direction: column;
+
+    margin: 8px;
+
+    h3 {
+      text-align: center;
+    }
+  }
+
+  section > div {
+    margin: 16px 0;
+  }
+}
+
+.volume {
+  width: 100%;
+
+  margin-top: 36px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  * {
+    margin: 0 4px;
+  }
+
+  .slider {
+    width: 82%;
+  }
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

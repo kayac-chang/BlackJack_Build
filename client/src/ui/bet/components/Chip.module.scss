@@ -1,0 +1,39 @@
+.override {
+  padding: 0;
+  outline: none;
+  border: none;
+  text-decoration: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+$size: 42px;
+
+.chip {
+  @extend .override;
+
+  background: transparent;
+  pointer-events: all;
+
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h5 {
+    position: absolute;
+  }
+
+  img {
+    width: $size;
+    height: $size;
+  }
+}
+
+.chosen {
+  border-radius: 50%;
+  box-shadow: 0 0 8px 2px #fff, 0 0 2px 2px #ff4;
+}

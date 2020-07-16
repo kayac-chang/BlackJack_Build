@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = https://gitlab.fbk168.com/gamedevjp/blackjack/client.git
+	branch = master
+	commit = 5451004a0dcc63f7a771cc58a783bed4e986f2a3
+	parent = 17c4f41fd2762161f2bfe9633fcfb3ea12638b5f
+	method = merge
+	cmdver = 0.4.1

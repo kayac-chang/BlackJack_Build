@@ -1,0 +1,69 @@
+// == third party styles ==
+@import '~normalize.css';
+
+// == default font-family ==
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+// == common style ==
+.full {
+  height: 100%;
+  width: 100%;
+}
+
+.fixedPage {
+  @extend .full;
+
+  position: absolute;
+  overflow: hidden;
+}
+
+.shadow {
+  box-shadow: 0px 0px 16px 4px rgba(0, 0, 0, 0.88);
+}
+
+// == default layout ==
+* {
+  color: white;
+  pointer-events: none;
+  user-select: none;
+}
+
+html,
+body,
+#root {
+  @extend .full;
+}
+
+body {
+  background-color: #111111;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0;
+  text-transform: uppercase;
+}
+
+h5 {
+  font-size: 0.7rem;
+}
+
+span {
+  font-family: sans-serif;
+}
+
+canvas {
+  pointer-events: all;
+}

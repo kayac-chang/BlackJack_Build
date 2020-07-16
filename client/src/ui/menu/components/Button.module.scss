@@ -1,0 +1,33 @@
+@mixin icon {
+  svg {
+    width: 4vw;
+    height: 4vw;
+  }
+
+  @media (min-width: 1200px) {
+    svg {
+      width: 48px;
+      height: 48px;
+    }
+  }
+}
+
+.trigger {
+  z-index: 2;
+
+  position: absolute;
+  margin: 16px;
+
+  @include icon();
+}
+
+.open {
+  box-shadow: none;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+
+  @include icon();
+}

@@ -1,0 +1,27 @@
+$color: rgba(48, 209, 88, 1);
+
+.timer {
+  margin: 8px;
+
+  display: flex;
+  align-items: center;
+
+  h5 {
+    background: rgba($color: #111, $alpha: 0.6);
+
+    border: 2px solid $color;
+    border-radius: 48px;
+
+    padding: 8px;
+    margin: 0 8px;
+
+    width: 16px;
+    height: 16px;
+
+    font-size: 1rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
