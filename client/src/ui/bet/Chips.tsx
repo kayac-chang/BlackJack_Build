@@ -31,7 +31,6 @@ export default function Chips({ enable }: Props) {
       <div className={styles.field}>
         {chips.map(({ type, src }) => (
           <Chip
-            //
             key={type}
             selected={type === chip}
             src={src}

@@ -1,6 +1,4 @@
 import React, { ReactNode, PropsWithChildren, useEffect, useState } from 'react';
-import { isMobile } from '../utils';
-import { useResize } from './hooks';
 import { Center, Flex, Canvas } from './components';
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import Lobby from './lobby';
@@ -13,15 +11,12 @@ type Props = {
 };
 
 function Frame({ children, ui }: PropsWithChildren<{ ui: ReactNode }>) {
-  const mobile = useResize(isMobile);
-
   return (
     <Center style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
       <Flex style={{ position: 'relative' }}>
         {children}
-        {!mobile && ui}
+        {ui}
       </Flex>
-      {mobile && ui}
     </Center>
   );
 }

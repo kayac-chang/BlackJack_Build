@@ -103,12 +103,20 @@ export default function Lobby() {
 
         <div>
           {page > range.min && (
-            <Arrow style={{ left: `${7}%`, top: `${50}%` }} onClick={() => (focus ? cancelFocus() : prev())} />
+            <Arrow
+              style={{ left: `${5}%`, top: `${50}%`, position: 'absolute', transform: `translate(-50%, -50%)` }}
+              onClick={() => (focus ? cancelFocus() : prev())}
+            />
           )}
 
           {page < range.max && (
             <Arrow
-              style={{ left: `${93}%`, top: `${50}%`, transform: `scaleX(-1)` }}
+              style={{
+                left: `${95}%`,
+                top: `${50}%`,
+                position: 'absolute',
+                transform: `translate(-50%, -50%) scaleX(-1)`,
+              }}
               onClick={() => (focus ? cancelFocus() : next())}
             />
           )}

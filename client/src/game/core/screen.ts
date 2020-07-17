@@ -16,7 +16,6 @@ export function getSize() {
 }
 
 export function resize(app: Application) {
-  //
   return function () {
     const x = app.screen.width / Quad_HD.width;
     const y = app.screen.height / Quad_HD.height;

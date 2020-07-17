@@ -44,7 +44,7 @@ export default function Decision() {
   return (
     <animated.div className={styles.decision} style={style}>
       <div>
-        <h3>make your decision</h3>
+        <h3 className={styles.title}>make your decision</h3>
 
         <Controls enable={isUserTurn && isDealing} />
 

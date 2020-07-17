@@ -1,8 +1,10 @@
+type History = number | string;
+
 export interface RoomProp {
   id: number;
   max_bet: number;
   min_bet: number;
-  history: (number | string)[];
+  history: History[];
   occupied: number;
 }
 
@@ -31,6 +33,7 @@ export interface GameProp {
   shoe_num: number;
   max_bet: number;
   min_bet: number;
+  history: History[];
 }
 
 export interface CountDownProp {

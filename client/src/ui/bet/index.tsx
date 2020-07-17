@@ -49,7 +49,7 @@ export default function Bet() {
   return (
     <animated.div className={styles.bet} style={style}>
       <div>
-        <h3>place your bets</h3>
+        <h3 className={styles.title}>place your bets</h3>
 
         <Chips enable={enable} />
 

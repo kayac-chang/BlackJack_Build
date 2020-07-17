@@ -12,6 +12,7 @@ import {
   turn,
   update,
   updateSeats,
+  editRoom,
 } from '../../store/actions';
 
 import {
@@ -30,6 +31,22 @@ import {
 import { pipe } from 'ramda';
 import { wait, looper } from '../../utils';
 
+function updateHistory(data: GameProp) {
+  const { room } = store.getState();
+
+  const found = room.find(({ id }) => data.id === id);
+  if (!found) {
+    return;
+  }
+
+  store.dispatch(
+    editRoom({
+      ...found,
+      history: data.history.map(String),
+    })
+  );
+}
+
 function onBetStart(service: Service, data: GameProp) {
   store.dispatch(
     betStart(
@@ -39,6 +56,8 @@ function onBetStart(service: Service, data: GameProp) {
       })
     )
   );
+
+  updateHistory(data);
 
   store.dispatch(countdown(20));
   store.dispatch(updateSeats(toSeats(data.seats)));

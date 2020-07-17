@@ -13,7 +13,7 @@ type Props = {
   enable: boolean;
 };
 
-export default function Controls ({ enable }: Props) {
+export default function Controls({ enable }: Props) {
   const dispatch = useDispatch();
   const user = useSelector((state: AppState) => state.user);
   const seats = useSelector((state: AppState) => state.seat);
@@ -105,7 +105,7 @@ export default function Controls ({ enable }: Props) {
 
       dispatch(clearBet(user));
 
-      [...history, ...history].forEach(bet => dispatch(addBet(bet)));
+      [...history, ...history].forEach((bet) => dispatch(addBet(bet)));
     },
     [dispatch, countdown, user, history]
   );
@@ -123,7 +123,7 @@ export default function Controls ({ enable }: Props) {
       <Control
         title={'deal'}
         icon={<img src={DEAL} alt={DEAL} />}
-        style={{ width: '48px', height: '48px', opacity: isDealable ? 1 : 0.3 }}
+        style={{ opacity: isDealable ? 1 : 0.3 }}
         onClick={onDeal}
         enable={isDealable}
       />
@@ -136,7 +136,7 @@ export default function Controls ({ enable }: Props) {
       />
       <Control
         title={'double'}
-        style={{ width: '48px', height: '48px', opacity: isDealable ? 1 : 0.3 }}
+        style={{ opacity: isDealable ? 1 : 0.3 }}
         icon={<h3>2x</h3>}
         onClick={onDouble}
         enable={isDealable}
