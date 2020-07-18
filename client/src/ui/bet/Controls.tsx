@@ -1,13 +1,13 @@
-import React, { useEffect, useCallback } from 'react';
-import { X, CornerUpLeft, RotateCw } from 'react-feather';
-import Control from '../components/button/Control';
-import styles from './Bet.module.scss';
-import DEAL from './assets/icon/on_deal.png';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../store';
-import { clearBet, undoBet, replaceBet, addBet } from '../../store/actions';
-import services from '../../services';
-import { throttleBy } from '../../utils';
+import React, { useEffect, useCallback } from "react";
+import { X, CornerUpLeft, RotateCw } from "react-feather";
+import Control from "../components/button/Control";
+import styles from "./Bet.module.scss";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../store";
+import { clearBet, undoBet, replaceBet, addBet } from "../../store/actions";
+import services from "../../services";
+import { throttleBy } from "../../utils";
+import RES from "../../assets";
 
 type Props = {
   enable: boolean;
@@ -112,30 +112,30 @@ export default function Controls({ enable }: Props) {
 
   return (
     <div className={styles.controls}>
-      <Control title={'clear'} icon={<X />} onClick={onClear} enable={enable} />
+      <Control title={"clear"} icon={<X />} onClick={onClear} enable={enable} />
       <Control
-        title={'undo'}
+        title={"undo"}
         style={{ opacity: isDealable ? 1 : 0.3 }}
         icon={<CornerUpLeft />}
         onClick={onUndo}
         enable={isDealable}
       />
       <Control
-        title={'deal'}
-        icon={<img src={DEAL} alt={DEAL} />}
+        title={"deal"}
+        icon={<img src={RES.getBase64("ICON_DEAL")} alt={"ICON_DEAL"} />}
         style={{ opacity: isDealable ? 1 : 0.3 }}
         onClick={onDeal}
         enable={isDealable}
       />
       <Control
-        title={'repeat'}
+        title={"repeat"}
         icon={<RotateCw />}
         style={{ opacity: isRepeatable ? 1 : 0.3 }}
         onClick={onRepeat}
         enable={isRepeatable}
       />
       <Control
-        title={'double'}
+        title={"double"}
         style={{ opacity: isDealable ? 1 : 0.3 }}
         icon={<h3>2x</h3>}
         onClick={onDouble}

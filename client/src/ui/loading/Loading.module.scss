@@ -45,8 +45,8 @@
   @include element();
   width: 36vw;
 
-  top: 45vh;
-  left: 50vw;
+  top: 45%;
+  left: 50%;
 
   opacity: 0;
 
@@ -69,8 +69,8 @@
 
 .click {
   @include element();
-  top: 97vh;
-  left: 50vw;
+  top: 97%;
+  left: 50%;
 
   min-width: 24vw;
   text-align: center;
