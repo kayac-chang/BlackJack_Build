@@ -28,4 +28,5 @@ export enum SEAT {
 
 export enum SYSTEM {
   ERROR = 8003091,
+  LOGIN_REPEAT = 8003098,
 }

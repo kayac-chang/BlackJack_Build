@@ -1,5 +1,5 @@
-import { S2C } from '../../models';
-import Service from '../service';
+import { S2C } from "../../models";
+import Service from "../service";
 
 function onError(service: Service, data: any) {
   throw new Error(JSON.stringify(data));
@@ -7,4 +7,5 @@ function onError(service: Service, data: any) {
 
 export default {
   [S2C.SYSTEM.ERROR]: onError,
+  [S2C.SYSTEM.LOGIN_REPEAT]: onError,
 };
