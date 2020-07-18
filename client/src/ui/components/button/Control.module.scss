@@ -4,13 +4,15 @@
 
   text-align: center;
 
+  $unit: 5vw;
+
   button {
-    height: 48px;
-    width: 48px;
+    height: $unit;
+    width: $unit;
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: $unit;
+      height: $unit;
     }
   }
 
@@ -20,6 +22,26 @@
     top: 110%;
     left: 50%;
 
+    font-size: $unit / 4;
+
     transform: translate(-50%);
+  }
+
+  @media (min-width: 1200px) {
+    $unit: 3vw;
+
+    button {
+      height: $unit;
+      width: $unit;
+
+      svg {
+        width: $unit;
+        height: $unit;
+      }
+    }
+
+    h5 {
+      font-size: $unit / 4;
+    }
   }
 }

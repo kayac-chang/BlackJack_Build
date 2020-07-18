@@ -1,15 +1,15 @@
-import { Container, Sprite } from 'pixi.js';
-import RES from '../assets';
+import { Container, Sprite } from "pixi.js";
+import RES from "../../assets";
 
 export default function Background() {
   const it = new Container();
-  it.name = 'background';
+  it.name = "background";
 
-  const table = new Sprite(RES.get('TABLE_BLUE').texture);
-  table.name = 'table';
+  const table = new Sprite(RES.getTexture("TABLE_BLUE"));
+  table.name = "table";
 
-  const title = new Sprite(RES.get('TABLE_TITLE').texture);
-  title.name = 'title';
+  const title = new Sprite(RES.getTexture("TABLE_TITLE"));
+  title.name = "title";
 
   title.x = table.width / 2;
   title.y = table.height / 3;

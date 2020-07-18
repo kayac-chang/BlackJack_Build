@@ -1,19 +1,19 @@
-import React, { useEffect, useCallback } from 'react';
-import { X, CornerUpLeft, RotateCw } from 'react-feather';
-import Control from '../components/button/Control';
-import styles from './Bet.module.scss';
-import DEAL from './assets/icon/on_deal.png';
-import { useSelector, useDispatch } from 'react-redux';
-import { AppState } from '../../store';
-import { clearBet, undoBet, replaceBet, addBet } from '../../store/actions';
-import services from '../../services';
-import { throttleBy } from '../../utils';
+import React, { useEffect, useCallback } from "react";
+import { X, CornerUpLeft, RotateCw } from "react-feather";
+import Control from "../components/button/Control";
+import styles from "./Bet.module.scss";
+import { useSelector, useDispatch } from "react-redux";
+import { AppState } from "../../store";
+import { clearBet, undoBet, replaceBet, addBet } from "../../store/actions";
+import services from "../../services";
+import { throttleBy } from "../../utils";
+import RES from "../../assets";
 
 type Props = {
   enable: boolean;
 };
 
-export default function Controls ({ enable }: Props) {
+export default function Controls({ enable }: Props) {
   const dispatch = useDispatch();
   const user = useSelector((state: AppState) => state.user);
   const seats = useSelector((state: AppState) => state.seat);
@@ -105,38 +105,38 @@ export default function Controls ({ enable }: Props) {
 
       dispatch(clearBet(user));
 
-      [...history, ...history].forEach(bet => dispatch(addBet(bet)));
+      [...history, ...history].forEach((bet) => dispatch(addBet(bet)));
     },
     [dispatch, countdown, user, history]
   );
 
   return (
     <div className={styles.controls}>
-      <Control title={'clear'} icon={<X />} onClick={onClear} enable={enable} />
+      <Control title={"clear"} icon={<X />} onClick={onClear} enable={enable} />
       <Control
-        title={'undo'}
+        title={"undo"}
         style={{ opacity: isDealable ? 1 : 0.3 }}
         icon={<CornerUpLeft />}
         onClick={onUndo}
         enable={isDealable}
       />
       <Control
-        title={'deal'}
-        icon={<img src={DEAL} alt={DEAL} />}
-        style={{ width: '48px', height: '48px', opacity: isDealable ? 1 : 0.3 }}
+        title={"deal"}
+        icon={<img src={RES.getBase64("ICON_DEAL")} alt={"ICON_DEAL"} />}
+        style={{ opacity: isDealable ? 1 : 0.3 }}
         onClick={onDeal}
         enable={isDealable}
       />
       <Control
-        title={'repeat'}
+        title={"repeat"}
         icon={<RotateCw />}
         style={{ opacity: isRepeatable ? 1 : 0.3 }}
         onClick={onRepeat}
         enable={isRepeatable}
       />
       <Control
-        title={'double'}
-        style={{ width: '48px', height: '48px', opacity: isDealable ? 1 : 0.3 }}
+        title={"double"}
+        style={{ opacity: isDealable ? 1 : 0.3 }}
         icon={<h3>2x</h3>}
         onClick={onDouble}
         enable={isDealable}

@@ -9,8 +9,6 @@
   }
 }
 
-$size: 42px;
-
 .chip {
   @extend .override;
 
@@ -25,11 +23,23 @@ $size: 42px;
 
   h5 {
     position: absolute;
+    font-size: 1.5vw;
   }
 
   img {
-    width: $size;
-    height: $size;
+    width: 5vw;
+    height: 5vw;
+  }
+
+  @media (min-width: 1200px) {
+    h5 {
+      font-size: 1vw;
+    }
+
+    img {
+      width: 3vw;
+      height: 3vw;
+    }
   }
 }
 

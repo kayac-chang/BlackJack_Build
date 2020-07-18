@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react';
-import styles from './Loading.module.scss';
-import BG from './assets/background.jpg';
-import LOGO from './assets/logo.png';
-import { useNavigate } from 'react-router-dom';
+import React, { useCallback } from "react";
+import styles from "./Loading.module.scss";
+import { useNavigate } from "react-router-dom";
+import RES from "../../assets";
 
 export default function Loading() {
   const navTo = useNavigate();
@@ -14,8 +13,12 @@ export default function Loading() {
   return (
     <div className={styles.layout} onClick={onClick}>
       <div>
-        <img className={styles.background} src={BG} alt={BG} />
-        <img className={styles.logo} src={LOGO} alt={LOGO} />
+        <img
+          className={styles.background}
+          src={RES.getBase64("BG")}
+          alt={"BG"}
+        />
+        <img className={styles.logo} src={RES.getBase64("LOGO")} alt={"LOGO"} />
 
         <div className={styles.click}>
           <h4>press anywhere to start</h4>

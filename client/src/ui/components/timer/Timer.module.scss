@@ -1,5 +1,7 @@
 $color: rgba(48, 209, 88, 1);
 
+$unit: 1.5vw;
+
 .timer {
   margin: 8px;
 
@@ -15,10 +17,13 @@ $color: rgba(48, 209, 88, 1);
     padding: 8px;
     margin: 0 8px;
 
-    width: 16px;
-    height: 16px;
+    width: $unit;
+    height: $unit;
 
-    font-size: 1rem;
+    font-size: 2vw;
+    @media (min-width: 1200px) {
+      font-size: 1.2vw;
+    }
 
     display: flex;
     justify-content: center;

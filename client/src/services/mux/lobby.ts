@@ -18,11 +18,25 @@ function onUpdate(service: Service, data: RoomProp) {
 }
 
 function onJoin(service: Service, data: GameProp) {
+  const { room } = store.getState();
+
   const action = store.dispatch(join(toGame(data)));
 
   store.dispatch(updateSeats(toSeats(data.seats)));
 
   service.emit(EVENT.JOIN_ROOM, action.payload);
+
+  const found = room.find(({ id }) => data.id === id);
+  if (!found) {
+    return;
+  }
+
+  store.dispatch(
+    editRoom({
+      ...found,
+      history: data.history.map(String),
+    })
+  );
 }
 
 export default {

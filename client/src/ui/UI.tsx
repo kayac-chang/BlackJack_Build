@@ -11,7 +11,7 @@ export default function UI() {
 
   if (location.pathname.includes('lobby')) {
     return (
-      <div className="fixedPage" style={{ pointerEvents: 'none' }}>
+      <div className="fixedPage">
         <Menu />
         <Status />
       </div>
@@ -20,7 +20,7 @@ export default function UI() {
 
   if (location.pathname.includes('game')) {
     return (
-      <div className="fixedPage" style={{ pointerEvents: 'none' }}>
+      <div className="fixedPage">
         <Menu />
         <Status />
         <Detail />
@@ -30,5 +30,5 @@ export default function UI() {
     );
   }
 
-  return <div className="fixedPage" style={{ pointerEvents: 'none' }}></div>;
+  return <div className="fixedPage"></div>;
 }
