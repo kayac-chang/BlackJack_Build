@@ -1,8 +1,8 @@
-import { Container, Text, Sprite } from 'pixi.js';
-import { SEAT, Seats } from '../../../models';
-import RES from '../../assets';
-import { observe } from '../../../store';
-import GameText from '../text';
+import { Container, Text, Sprite } from "pixi.js";
+import { SEAT, Seats } from "../../../models";
+import RES from "../../../assets";
+import { observe } from "../../../store";
+import GameText from "../text";
 
 type Props = {
   id: SEAT;
@@ -17,9 +17,9 @@ function findGroupBySeatID(groups: Container[], seat: SEAT) {
 function updateSeat(groups: Container[]) {
   //
   function bet(group: Container, totalBet: number) {
-    const field = group.getChildByName('field') as Text;
+    const field = group.getChildByName("field") as Text;
 
-    field.text = totalBet ? String(totalBet) : '';
+    field.text = totalBet ? String(totalBet) : "";
   }
 
   function show(group: Container, totalBet: number) {
@@ -47,14 +47,14 @@ function Bet(id: SEAT, x: number, y: number) {
   it.position.set(x, y + 70);
   it.visible = false;
 
-  const background = new Sprite(RES.get('FIELD').texture);
+  const background = new Sprite(RES.getTexture("FIELD"));
   background.anchor.set(0.5);
   background.scale.set(0.5, 0.75);
   background.tint = 0xf0aa0a;
   it.addChild(background);
 
-  const field = GameText('');
-  field.name = 'field';
+  const field = GameText("");
+  field.name = "field";
   field.anchor.set(0.5);
 
   it.addChild(field);
@@ -76,8 +76,8 @@ function init(container: Container, meta: Props[]) {
 
 export default function (meta: Props[]) {
   const it = new Container();
-  it.name = 'bets';
-  it.once('added', init(it, meta));
+  it.name = "bets";
+  it.once("added", init(it, meta));
 
   return it;
 }

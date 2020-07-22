@@ -1,6 +1,6 @@
-import Res from './assets';
-import Game from './core/game';
-import Main from './main';
+import Res from "../assets";
+import Game from "./core/game";
+import Main from "./main";
 
 export default async function (view: HTMLCanvasElement) {
   const app = Game(view);

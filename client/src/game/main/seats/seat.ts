@@ -1,10 +1,10 @@
-import { Sprite, Container } from 'pixi.js';
-import { SEAT } from '../../../models';
-import { createField, Field } from './field';
-import { observe } from '../../../store';
-import { createSeatService, SeatService, SeatState } from './state';
-import { pipe } from 'ramda';
-import RES from '../../assets';
+import { Sprite, Container } from "pixi.js";
+import { SEAT } from "../../../models";
+import { createField, Field } from "./field";
+import { observe } from "../../../store";
+import { createSeatService, SeatService, SeatState } from "./state";
+import { pipe } from "ramda";
+import RES from "../../../assets";
 
 interface Prop {
   id: SEAT;
@@ -14,16 +14,16 @@ interface Prop {
 
 function updateSeat(seat: Sprite) {
   return function onChange(state: SeatState) {
-    if (state.matches('empty')) {
-      seat.texture = RES.get('SELECT_SEAT_NORMAL').texture;
+    if (state.matches("empty")) {
+      seat.texture = RES.getTexture("SELECT_SEAT_NORMAL");
     }
 
-    if (state.matches({ occupy: 'normal' })) {
-      seat.texture = RES.get('SEAT_NORMAL').texture;
+    if (state.matches({ occupy: "normal" })) {
+      seat.texture = RES.getTexture("SEAT_NORMAL");
     }
 
-    if (state.matches({ occupy: 'betting' })) {
-      seat.texture = RES.get('SEAT_ENABLE').texture;
+    if (state.matches({ occupy: "betting" })) {
+      seat.texture = RES.getTexture("SEAT_ENABLE");
     }
 
     return state;
@@ -32,11 +32,11 @@ function updateSeat(seat: Sprite) {
 
 function updateField(field: Field) {
   return function onChange(state: SeatState) {
-    if (state.matches('empty')) {
+    if (state.matches("empty")) {
       field.visible = false;
     }
 
-    if (state.matches('occupy')) {
+    if (state.matches("occupy")) {
       field.visible = true;
 
       field.text = state.context.owner;
@@ -76,17 +76,17 @@ export function createSeat({ id, x, y }: Prop): Seat {
     )
   );
 
-  it.on('pointerdown', service.send);
-  it.on('added', () => service.start());
-  it.on('removed', () => service.stop());
+  it.on("pointerdown", service.send);
+  it.on("added", () => service.start());
+  it.on("removed", () => service.stop());
 
   observe(
     (state) => state.seat[id].player,
-    (user) => service.send({ type: user ? 'JOIN' : 'LEAVE', user })
+    (user) => service.send({ type: user ? "JOIN" : "LEAVE", user })
   );
   observe(
     (state) => state.game.state,
-    (state) => service.send({ type: 'STATE' })
+    (state) => service.send({ type: "STATE" })
   );
 
   return Object.assign(it, { service });
