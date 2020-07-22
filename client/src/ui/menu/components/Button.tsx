@@ -2,6 +2,7 @@ import React, { PropsWithChildren, HTMLAttributes } from 'react';
 import { Menu as IconMenu, X } from 'react-feather';
 import { Button } from '../../components/button/Button';
 import styles from './Button.module.scss';
+import clsx from 'clsx';
 
 // ===== Trigger =====
 type ButtonProps<T> = PropsWithChildren<T & HTMLAttributes<HTMLButtonElement>>;
@@ -11,22 +12,16 @@ type Props = ButtonProps<{
 }>;
 
 export function Trigger({ open, style, onClick }: Props) {
-  //
-  const _className = [styles.trigger, open && styles.open].filter(Boolean).join(' ');
-
   return (
-    <Button className={_className} onClick={onClick} style={style}>
+    <Button className={clsx(styles.trigger, open && styles.open)} onClick={onClick} style={style}>
       {open ? <X /> : <IconMenu />}
     </Button>
   );
 }
 
 export function Option({ open, children, onClick }: Props) {
-  //
-  const _className = [styles.option, open && styles.open].filter(Boolean).join(' ');
-
   return (
-    <Button className={_className} onClick={onClick}>
+    <Button className={clsx(styles.option, open && styles.open)} onClick={onClick}>
       {children}
     </Button>
   );

@@ -31,6 +31,11 @@ export default function Bet() {
   }, [isBetting, seats, user]);
 
   useEffect(() => {
+    if (isBetting && hasCommited) {
+      setOpacity({ opacity: 0.3, display: 'block' });
+      return;
+    }
+
     if (isBetting && isUserJoin) {
       setOpacity({ opacity: 1, display: 'block' });
       return;

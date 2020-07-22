@@ -1,10 +1,173 @@
 {
   "gamerules": [
     {
-      "title": "the cards",
+      "title": "Lobby",
       "descriptions": [
-        "There are 6 decks of 52 card per deck which make up the ‘shoe’"
+        "Players can check the total point of cards opened in the last 20 games of the dealer from the lobby.",
+        "Click the table to start the game.",
+        "The range of bet & number of players are displayed at the top of the table.",
+        "Total 20 tables."
       ]
+    },
+    {
+      "title": "Blackjack Rules",
+      "descriptions": [
+        "Get as close to 21 as possible without going over.",
+        "The player on the right goes first and decide whether to Hit, Stand, Double, Split, Surrender or Insurance.",
+        "After all the players have completed their hands or gone bust, the dealer reveals the down card.",
+        "If the player attains a final sum higher than the dealer and does not bust, the player wins",
+        "The dealer must Hit until they have at least 17 and Stand on 17 or more."
+      ]
+    },
+    {
+      "title": "Times out",
+      "descriptions": ["All actions have 10 seconds time limit after game started. Auto-stand if times out."]
+    },
+    {
+      "title": "Card Values",
+      "descriptions": [
+        "Aces are valued as either 1 or 11 (Valued as 1 if going over 21)",
+        "Number cards (2-10) count as their natural value",
+        "The Jack, Queen, King count as 10"
+      ]
+    },
+    {
+      "title": "Blackjack",
+      "descriptions": ["The player is dealt an Ace and a ten-value card (10, Jack, Queen or King)"]
+    },
+    {
+      "title": "Push",
+      "descriptions": ["Player and dealer are tie when same total, including blackjack"]
+    },
+    {
+      "title": "How to win",
+      "descriptions": [
+        "The player attains a final sum higher than the dealer (Paid out 1:1)",
+        "Dealer points 21 vs. Player gets Blackjack -> Player wins (Paid out 2:3)",
+        "Dealer points 20 vs. Player gets Blackjack -> Player wins (Paid out 2:3)"
+      ]
+    },
+    {
+      "title": "Roadmap",
+      "descriptions": ["Click roadmap to view the results of the last 20 games"]
+    },
+    {
+      "title": "Table number / Maximum Bet",
+      "descriptions": ["Shows table number, the range of the bet.", "Game runs with 6 decks of cards"]
+    },
+    {
+      "title": "Choosing a seat",
+      "descriptions": [
+        "Tap Join to sit at the table",
+        "The player is allowed to join one table and maximum 3 seats per table at a time.",
+        "If the game has already started, the player needs to wait for the next game.",
+        "Cannot place bet without sitting at a table."
+      ]
+    },
+    {
+      "title": "Placing a bet",
+      "descriptions": [
+        "Join the table and play the bet within 20 seconds or the player is only able to watch the game.",
+        "Once the player joins the table, please set the bet before the time limits, and play bets by clicking on the chips at the betting area.",
+        "The message will be appeared to dismiss the game when the player does not play the bet 3 games consecutively.",
+        "(When take seats 2 or more, the player is responsible to bet all of their seats or the player will be asked to dismiss.)"
+      ]
+    },
+    {
+      "title": "Seating Capacity",
+      "descriptions": ["One table contains 5 seats and one player can own 3 seats maximum."]
+    },
+    {
+      "title": "Game Start",
+      "descriptions": ["After bet is confirmed, the game starts, [Back to lobby] & [Exit] functions will be locked."]
+    },
+    {
+      "title": "Select",
+      "descriptions": [
+        "The system will automatically play on the clockwise.",
+        "The player can take action written as followed",
+        "If the player has the blackjack and dealer has A/10/J/Q/K, the player can decide to choose Pay. (Dealer is paid out 1:1)",
+        "After the dealer’s first card is Ace, the player can decide whether to choose the Insurance or not.",
+        "When the two cards are not same, the player cannot split.",
+        "When click double, the rest of the buttons are freeze.",
+        "When the player`s card is 21 or over/blackjack, the rest of the buttons are freeze.",
+        "When the player chooses Stand, the rest of the buttons are freeze."
+      ]
+    },
+    {
+      "title": "Game End",
+      "descriptions": ["Once the dealer opens the cards, all of the players` results come out."]
+    },
+    {
+      "title": "Leave",
+      "descriptions": ["The player can leave theirs seats if has owned more than 2 on previous game."]
+    },
+    {
+      "title": "Pop Outs",
+      "descriptions": [
+        "Game Start: place your bet",
+        "End the bet: please wait",
+        "Result: Win + get the prize",
+        "Give up the bet in a row: if the player does not bet for 2 games, the pop out will be appeared on the third game",
+        "the player will be asked to dismiss unless bet"
+      ]
+    },
+    {
+      "title": "Bet",
+      "table": [
+        { "name": "Back", "description": "Remove the last bet placed." },
+        { "name": "Clear", "description": "Clear all the chips on the table that have not been confirmed." },
+        { "name": "Repeat", "description": "Make the same bet as you did in the previous game." }
+      ]
+    },
+    {
+      "title": "Decisions",
+      "table": [
+        {
+          "name": "Split",
+          "description": "When presented with two cards of the same value, the player can choose [Split] and play it as two separate hands and place an additional bet.An ace after a split are counted as a non-blackjack 21 with no surrender.After splitting a pair of aces, the player can only take one more card for each ace."
+        },
+        {
+          "name": "Double",
+          "description": "Double down is only permitted on hard totals of 9, 10, or 11. Choose [Double] to double the bet and receive an additional card.However, the player only receive ONE extra card and can’t hit afterwards."
+        },
+        {
+          "name": "Hit",
+          "description": "Choose [Hit] to receive another card in the hands after the initial deal of two. The player can Hit until exceed 21."
+        },
+        {
+          "name": "Stand",
+          "description": "Choose [Stand] to stop receiving cards. The player’s current point becomes final.Once the player stand, the dealer and other players will then draw until all of their hands are also complete.For the determination of winning or losing, please refer to the description of [How to win]."
+        },
+        {
+          "name": "Insurance",
+          "description": "The player is allowed to make an insurance bet when the dealer’s up card is an ace. If dealer has a blackjack, the insurance bet is paid out at 2:1.If the dealer’s card is anything other than a ten, player lose the insurance bet and the hand is played out like a standard Blackjack hand."
+        },
+        {
+          "name": "Surrender",
+          "description": "The player can choose [Surrender] before drawing any additional cards. The dealer will return half of original bet."
+        },
+        {
+          "name": "Pay",
+          "description": "When the player gets natural, the dealer's first card is A/10/J/Q/K, player can choose [Pay]. Ignore whether the dealer is Blackjack or not, paid out 1:1."
+        }
+      ]
+    },
+    {
+      "title": "Auto settlement",
+      "descriptions": [
+        "If the player goes offline halfway with unstable network, player cannot return to the game. Choose exit game and log in again, the system will be compared with the dealer according to the player's last accumulated total points. Click [Record] to view the details."
+      ]
+    },
+    {
+      "title": "Repeat login",
+      "descriptions": [
+        "When repeat login detected, the warning message will be appeared; the player will be asked to interrupt the game and back to lobby."
+      ]
+    },
+    {
+      "title": "System Error",
+      "descriptions": ["Return the bet when system error. The betting record will show as cancelled."]
     }
   ]
 }

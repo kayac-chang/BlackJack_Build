@@ -1,48 +1,40 @@
-import React, { useState, ChangeEvent, useEffect, PropsWithChildren, HTMLAttributes } from 'react';
+import React, { useState, ChangeEvent, useCallback, HTMLAttributes, memo } from 'react';
 import styles from './Slider.module.scss';
+import clsx from 'clsx';
 
-type Div<T> = PropsWithChildren<T & HTMLAttributes<HTMLDivElement>>;
-
-type Props = Div<{
+type Props = {
   min?: number;
   max?: number;
-  onValueChange?: (value: number) => void;
-}>;
+  value?: number;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+} & HTMLAttributes<HTMLDivElement>;
 
-export default function Slider({ min = 0, max = 100, onValueChange, className }: Props) {
-  //
-  const [value, setValue] = useState(min);
+export default memo(function Slider({ min = 0, max = 100, value = min, onChange, className }: Props) {
+  const [val, setValue] = useState(value);
 
-  useEffect(() => {
-    //
-    if (!onValueChange) return;
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onChange && onChange(event);
 
-    onValueChange(value);
-    //
-  }, [value, onValueChange]);
+      setValue(Number(event.target.value));
+    },
+    [setValue, onChange]
+  );
 
   return (
-    <div className={`${styles.wrapper} ${className}`}>
-      <input className={styles.slider} type="range" min={min} max={max} value={value} onChange={handle} />
-      <output className={styles.output} style={{ left: getPos(value) }}>
-        {value}
+    <div className={clsx(styles.wrapper, className)}>
+      <input className={styles.slider} type="range" min={min} max={max} value={val} onChange={handleChange} />
+      <output className={styles.output} style={{ left: interpret([min, max], val) }}>
+        {val}
       </output>
     </div>
   );
+});
 
-  function handle(event: ChangeEvent) {
-    //
-    const el = event.target as HTMLInputElement;
+function interpret([min, max]: [number, number], value: number) {
+  const percentage = Number(((value - min) * 100) / (max - min));
 
-    setValue(Number(el.value));
-  }
+  const newPosition = 15 - percentage * 0.4;
 
-  function getPos(value: number) {
-    //
-    const percentage = Number(((value - min) * 100) / (max - min));
-
-    const newPosition = 15 - percentage * 0.4;
-
-    return `calc(${percentage}% + (${newPosition}px))`;
-  }
+  return `calc(${percentage}% + (${newPosition}px))`;
 }

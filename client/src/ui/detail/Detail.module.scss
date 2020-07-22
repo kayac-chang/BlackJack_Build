@@ -1,17 +1,3 @@
-@mixin icon {
-  svg {
-    width: 5vmin;
-    height: 5vmin;
-  }
-
-  @media screen and (min-device-width: 1200px) {
-    svg {
-      width: 2vmin;
-      height: 2vmin;
-    }
-  }
-}
-
 .detail {
   width: 100%;
   height: 100%;
@@ -32,8 +18,6 @@
 }
 
 .back {
-  @include icon();
-
   padding: 8px;
 
   pointer-events: all;
@@ -109,7 +93,6 @@ $unit: 16px;
   h5 {
     background-color: rgba(0, 0, 0, 1);
     font-size: 1.4vw;
-
     @media (min-width: 1200px) {
       font-size: 0.8vw;
     }
@@ -120,7 +103,9 @@ $unit: 16px;
     @media (min-width: 1200px) {
       font-size: 1.4vw;
     }
-    background: rgba(0, 0, 0, 0.3);
+
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
   }
 }
 

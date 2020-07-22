@@ -1,24 +1,41 @@
-import { Loader } from "pixi.js";
-
-import TABLE from "./table";
-import SEAT from "./seat";
-import POKER from "./poker";
-import CHIP from "./chip";
-import ICON from "./icon";
-import LOBBY from "./lobby";
-
-import { toBase64 } from "../utils";
-
-const PKG = Object.freeze({
-  ...CHIP,
-  ...TABLE,
-  ...SEAT,
-  ...POKER,
-  ...ICON,
-  ...LOBBY,
-});
+import { Loader, LoaderResource } from 'pixi.js';
+import { toBase64 } from '../utils';
+import PKG from './pkg';
+import { Howl } from 'howler';
 
 const loader = new Loader();
+
+loader.pre(SoundHandler);
+
+function SoundHandler(resource: LoaderResource, next: () => void) {
+  const SUPPORT_FORMATS = ['mp3', 'opus', 'ogg', 'wav', 'aac', 'm4a', 'm4b', 'mp4', 'webm'];
+
+  if (!SUPPORT_FORMATS.includes(resource.extension)) {
+    return next();
+  }
+
+  const sound = new Howl({
+    src: resource.url,
+    onload,
+    onloaderror,
+  });
+
+  function onload() {
+    resource.complete();
+
+    resource.data = sound;
+
+    next();
+  }
+
+  function onloaderror(soundId: number, error: any) {
+    // resource.abort(error);
+
+    // console.error(error);
+
+    next();
+  }
+}
 
 async function load() {
   for (const [name, url] of Object.entries(PKG)) {
@@ -54,9 +71,14 @@ function getTexture(res: keyof typeof PKG) {
   return resource.texture;
 }
 
+function getSound(res: keyof typeof PKG) {
+  return loader.resources[res].data as Howl;
+}
+
 export default {
   load,
   getBase64,
   getTexture,
+  getSound,
   PKG,
 };

@@ -2,7 +2,11 @@
   background: #212121;
   z-index: 1;
 
-  width: 90%;
+  width: 92%;
+
+  overflow: auto;
+  pointer-events: all;
+  user-select: auto;
 
   & > div {
     display: flex;
@@ -19,6 +23,7 @@
 
 .menu {
   position: absolute;
+  top: 0;
 
   display: flex;
 

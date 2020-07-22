@@ -9,7 +9,7 @@
 
   & > div {
     position: relative;
-    top: 18vh;
+    top: 16vh;
 
     display: flex;
     flex-direction: column;
@@ -69,11 +69,7 @@
 }
 
 .controls {
-  @include on-circle($item-count: 5, $circle-size: 200px);
-
-  @media (min-width: 1200px) {
-    @include on-circle($item-count: 5, $circle-size: 300px);
-  }
+  @include on-circle($item-count: 5, $circle-size: 25vw);
 
   position: absolute;
 }

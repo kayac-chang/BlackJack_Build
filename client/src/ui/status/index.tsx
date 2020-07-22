@@ -1,4 +1,4 @@
-import React, { ReactNode, PropsWithChildren, HTMLAttributes } from 'react';
+import React, { ReactNode, PropsWithChildren, HTMLAttributes, memo } from 'react';
 import style from './Status.module.scss';
 import { currency } from '../../utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,7 +33,7 @@ function Field({ icon, title, value }: FieldProps) {
   );
 }
 
-export default function Status() {
+export default memo(function Status() {
   const balance = useSelector((state: AppState) => state.user.balance);
   const totalBet = useSelector((state: AppState) => state.user.totalBet);
 
@@ -43,4 +43,4 @@ export default function Status() {
       <Field title={'total bet'} value={totalBet} icon={<FontAwesomeIcon icon={faCoins} />} />
     </div>
   );
-}
+});

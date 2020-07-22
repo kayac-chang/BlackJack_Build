@@ -7,6 +7,7 @@ const initialState: User = {
   balance: 0,
   totalBet: 0,
   decisions: [],
+  table: 'TABLE_BLUE',
 };
 
 export default function userReducer(state = initialState, action: UserAction | BetAction): User {

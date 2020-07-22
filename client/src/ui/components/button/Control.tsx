@@ -12,7 +12,6 @@ type Props = Div<{
 }>;
 
 export default function Control({ title, icon, className, style, onClick, enable = true }: Props) {
-  //
   function handle(evt: MouseEvent<HTMLButtonElement>) {
     if (!onClick) return;
 
