@@ -30,22 +30,4 @@
   h3 {
     font-size: $unit / 2.4;
   }
-
-  @media (min-width: 1200px) {
-    $unit: 3vw;
-
-    button {
-      height: $unit;
-      width: $unit;
-
-      svg {
-        width: $unit;
-        height: $unit;
-      }
-    }
-
-    h5 {
-      font-size: $unit / 4;
-    }
-  }
 }

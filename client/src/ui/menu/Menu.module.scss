@@ -2,7 +2,7 @@
   background: #212121;
   z-index: 1;
 
-  width: 92%;
+  width: 100%;
 
   overflow: auto;
   pointer-events: all;
@@ -11,7 +11,7 @@
   & > div {
     display: flex;
     flex-direction: column;
-
+    width: 85%;
     padding: 16px;
   }
 }

@@ -4,7 +4,7 @@
 
 .drawer {
   height: 100%;
-  width: 5%;
+  width: 6%;
   padding: 0 16px;
 
   background: #191919;
@@ -21,6 +21,13 @@
 
   button {
     margin-top: 16px;
+  }
+
+  @media (min-width: 1000px) {
+    width: 5%;
+  }
+  @media (min-width: 1200px) {
+    width: 4%;
   }
 }
 
