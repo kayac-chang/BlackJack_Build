@@ -1,6 +1,6 @@
 import { Loader, LoaderResource } from 'pixi.js';
 import { toBase64 } from '../utils';
-import PKG from './pkg';
+import { PKG, ASSETS, PRELOAD } from './pkg';
 import { Howl } from 'howler';
 
 const loader = new Loader();
@@ -29,16 +29,20 @@ function SoundHandler(resource: LoaderResource, next: () => void) {
   }
 
   function onloaderror(soundId: number, error: any) {
-    // resource.abort(error);
+    resource.abort(error);
 
-    // console.error(error);
+    console.error(error);
 
     next();
   }
 }
 
-async function load() {
-  for (const [name, url] of Object.entries(PKG)) {
+function onProgress(func: (progress: number) => void) {
+  loader.onProgress.add(() => func(loader.progress));
+}
+
+async function load(pkg: typeof ASSETS | typeof PRELOAD) {
+  for (const [name, url] of Object.entries(pkg)) {
     if (loader.resources[name]) {
       continue;
     }
@@ -55,7 +59,7 @@ async function load() {
 
 const cache: Record<string, string> = {};
 
-function getBase64(res: keyof typeof PKG) {
+function getBase64(res: PKG) {
   const resource = loader.resources[res];
 
   if (!cache[res]) {
@@ -65,20 +69,18 @@ function getBase64(res: keyof typeof PKG) {
   return cache[res];
 }
 
-function getTexture(res: keyof typeof PKG) {
-  const resource = loader.resources[res];
-
-  return resource.texture;
+function getTexture(res: PKG) {
+  return loader.resources[res].texture;
 }
 
-function getSound(res: keyof typeof PKG) {
+function getSound(res: PKG) {
   return loader.resources[res].data as Howl;
 }
 
 export default {
   load,
+  onProgress,
   getBase64,
   getTexture,
   getSound,
-  PKG,
 };

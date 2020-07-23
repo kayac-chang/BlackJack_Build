@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Canvas } from './ui/components';
 import { BrowserRouter as Router, Routes, Route, useParams, Navigate } from 'react-router-dom';
-import Lobby from './ui/lobby';
 import services from './service';
 import Loading from './ui/loading';
 import { ModalProvider } from './ui/modal';
 import { SoundProvider } from './sound';
 import Frame from './ui/Frame';
+import Lobby from './ui/lobby';
 
 type Props = {
   game: (canvas: HTMLCanvasElement) => void;

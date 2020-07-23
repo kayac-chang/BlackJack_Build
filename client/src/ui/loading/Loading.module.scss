@@ -77,10 +77,42 @@
   border-radius: 16px 16px 0 0;
   padding: 16px 32px;
 
+  transition: 1s ease 0.3s;
+  transition-delay: 1.5s;
+
   h4 {
     animation: fade 1s;
     animation-timing-function: cubic-bezier(0, 0.55, 0.45, 1);
     animation-direction: alternate;
     animation-iteration-count: infinite;
   }
+}
+
+.progressbar {
+  position: absolute;
+  width: 55vw;
+  bottom: 8%;
+  left: 50%;
+  transform: translate(-50%);
+
+  background-color: #664d37;
+
+  border: 8px solid #e8d8d7;
+  border-radius: 32px;
+
+  box-shadow: inset 4px 8px 8px 1px rgba($color: #000000, $alpha: 0.5);
+  transition: 1s ease 0.3s;
+  transition-delay: 1s;
+}
+
+.progressdone {
+  height: 4vh;
+
+  background: linear-gradient(to left, #fffb6a, #ff9f0a);
+  box-shadow: 0 3px 3px -5px #f2709c, 0 2px 5px #f2709c;
+
+  border-radius: 20px;
+  color: #fff;
+
+  transition: 1s ease 0.3s;
 }

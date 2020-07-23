@@ -9,9 +9,16 @@ import './index.scss';
 import store from './store';
 import { getURLParam } from './utils';
 import RES from './assets';
+import { PRELOAD } from './assets/pkg';
 
 async function main() {
-  await Promise.all([i18n.init(), gsap.init(), service.init(getURLParam('token')), RES.load()]);
+  await Promise.all([
+    //
+    i18n.init(),
+    gsap.init(),
+    service.init(getURLParam('token')),
+    RES.load(PRELOAD),
+  ]);
 
   const Root = (
     <React.StrictMode>

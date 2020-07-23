@@ -36,7 +36,12 @@ import TABLES from './table';
 import POKER from './poker';
 import { BGM, SFX } from './sound';
 
-export default Object.freeze({
+const PRELOAD = Object.freeze({
+  BG,
+  LOGO,
+});
+
+const ASSETS = Object.freeze({
   CHIP_FLAT_RED,
   CHIP_FLAT_GREEN,
   CHIP_FLAT_BLUE,
@@ -58,9 +63,7 @@ export default Object.freeze({
   ICON_DEAL,
   //
   ARROW,
-  BG,
   DETAIL,
-  LOGO,
   TABLE,
   ROOM_NUM,
   //
@@ -77,3 +80,7 @@ export default Object.freeze({
   ...BGM,
   ...SFX,
 });
+
+export type PKG = keyof typeof PRELOAD | keyof typeof ASSETS;
+
+export { PRELOAD, ASSETS };

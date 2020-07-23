@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState, useCallback } from 'react';
 import styles from './Frame.module.scss';
 import { IconContext } from 'react-icons';
 import { MdScreenRotation, MdTouchApp } from 'react-icons/md';
@@ -21,31 +21,19 @@ function Rotation() {
 function Scroll() {
   const [hidden, setHidden] = useState(false);
 
-  useEffect(() => {
-    window.addEventListener('touchend', (event) => {
-      const hidden = isBarHidden();
+  const onChange = useCallback(() => {
+    const hidden = isBarHidden();
 
-      hidden && window.scrollTo({ top: 0 });
+    hidden && window.scrollTo({ top: 0 });
 
-      setHidden(hidden);
-    });
-
-    window.addEventListener('resize', () => {
-      const hidden = isBarHidden();
-
-      hidden && window.scrollTo({ top: 0 });
-
-      setHidden(hidden);
-    });
-
-    window.addEventListener('orientationchange', () => {
-      const hidden = isBarHidden();
-
-      hidden && window.scrollTo({ top: 0 });
-
-      setHidden(hidden);
-    });
+    setHidden(hidden);
   }, [setHidden]);
+
+  useEffect(() => {
+    ['touchend', 'resize', 'orientationchange']
+      //
+      .forEach((key) => window.addEventListener(key, onChange));
+  }, [onChange]);
 
   return (
     <div className={clsx(styles.mask, hidden && styles.hidden)}>
