@@ -5,8 +5,8 @@ import { Container } from 'pixi.js';
 import Poker from './Poker';
 import { move, tween } from './anim';
 import { origin, config } from './static';
-import Field from './Field';
 import { Lose, Win, Bust } from './icon';
+import { createField, Field } from '../field';
 
 interface Context {
   history: Hand[];
@@ -457,8 +457,8 @@ export function createHandService(id: SEAT, container: Container): HandsService 
   const handR = new Container();
   container.addChild(handL, handR);
 
-  const fieldL = new Field();
-  const fieldR = new Field();
+  const fieldL = createField({ fontSize: 48 });
+  const fieldR = createField({ fontSize: 48 });
   container.addChild(fieldL, fieldR);
 
   const results = new Container();

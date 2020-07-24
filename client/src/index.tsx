@@ -9,7 +9,7 @@ import './index.scss';
 import store from './store';
 import { getURLParam } from './utils';
 import RES from './assets';
-import { PRELOAD } from './assets/pkg';
+import { PRELOAD, ASSETS } from './assets/pkg';
 
 async function main() {
   await Promise.all([
@@ -19,6 +19,10 @@ async function main() {
     service.init(getURLParam('token')),
     RES.load(PRELOAD),
   ]);
+
+  if (process.env.NODE_ENV === 'development') {
+    await RES.load(ASSETS);
+  }
 
   const Root = (
     <React.StrictMode>
