@@ -6,7 +6,7 @@
 [subrepo]
 	remote = https://gitlab.fbk168.com/gamedevjp/blackjack/client.git
 	branch = master
-	commit = 0563648a5c191142b6c7ef27c09822ae5899d6fd
-	parent = 8f469b805ff454e8bdd836c26e544bccd3933938
+	commit = d1ef99922c037ac8591930a6a8c6033d1064303a
+	parent = c7320bd922b05a30fbb134ee287d0333fada51a6
 	method = merge
 	cmdver = 0.4.1

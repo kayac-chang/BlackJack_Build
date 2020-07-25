@@ -1,12 +1,12 @@
-import React, { ReactNode, useState, useCallback } from 'react';
-import styles from './Menu.module.scss';
-import Drawer from './components/Drawer';
-import { Trigger } from './components/Button';
-import { Settings, Info, Clock, LogOut } from 'react-feather';
-import { SettingsPage, HistoryPage, GameRulesPage } from './pages';
-import clsx from 'clsx';
-import { useModelState } from '../modal';
-import { useNavigate } from 'react-router-dom';
+import React, { ReactNode, useState, useCallback } from "react";
+import styles from "./Menu.module.scss";
+import Drawer from "./components/Drawer";
+import { Trigger } from "./components/Button";
+import { Settings, Info, LogOut } from "react-feather";
+import { SettingsPage, GameRulesPage } from "./pages";
+import clsx from "clsx";
+import { useModelState } from "../modal";
+import { useNavigate } from "react-router-dom";
 
 // ===== Menu =====
 export default function Menu() {
@@ -18,28 +18,29 @@ export default function Menu() {
   const [options] = useState([
     {
       icon: <Info />,
-      title: 'rules',
+      title: "rules",
       onClick: () => setPage(<GameRulesPage />),
     },
     {
       icon: <Settings />,
-      title: 'settings',
+      title: "settings",
       onClick: () => setPage(<SettingsPage />),
     },
-    {
-      icon: <Clock />,
-      title: 'history',
-      onClick: () => setPage(<HistoryPage />),
-    },
+    // TODO: History
+    // {
+    //   icon: <Clock />,
+    //   title: 'history',
+    //   onClick: () => setPage(<HistoryPage />),
+    // },
     {
       icon: <LogOut />,
-      title: 'home',
+      title: "home",
       onClick: () =>
         dispatch({
-          type: 'show',
+          type: "show",
           state: {
-            title: 'Back to home',
-            msg: 'are you sure to exit?',
+            title: "Back to home",
+            msg: "are you sure to exit?",
             onConfirm: () => navTo(-1),
           },
         }),
@@ -55,9 +56,15 @@ export default function Menu() {
     <>
       <Trigger style={{ right: 0 }} open={isDrawerOpen} onClick={onTrigger} />
 
-      <div className={styles.menu} style={{ pointerEvents: isDrawerOpen ? 'all' : 'none' }}>
+      <div
+        className={styles.menu}
+        style={{ pointerEvents: isDrawerOpen ? "all" : "none" }}
+      >
         {isDrawerOpen && (
-          <div className={clsx(styles.page, page || styles.hidden)} onClick={() => !page && onTrigger()}>
+          <div
+            className={clsx(styles.page, page || styles.hidden)}
+            onClick={() => !page && onTrigger()}
+          >
             {page}
           </div>
         )}
