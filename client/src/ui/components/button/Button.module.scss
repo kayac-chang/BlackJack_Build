@@ -34,12 +34,9 @@
   @extend .center;
 
   pointer-events: all;
+  cursor: pointer;
 
-  padding: 3vh;
-
-  @media screen and (min-device-width: 1200px) {
-    padding: 16px;
-  }
+  padding: 1.3vw;
 
   background: #191919;
   border-radius: 100%;

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
 import { DECISION } from '../../models';
 import Control from '../components/button/Control';
-import services from '../../services';
+import services from '../../service';
 
 type Props = {
   enable: boolean;

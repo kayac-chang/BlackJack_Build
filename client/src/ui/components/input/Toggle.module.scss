@@ -8,8 +8,6 @@ $disable-color: grey;
 $active-color: #3071a9;
 
 .toggle {
-  pointer-events: all;
-
   input[type='checkbox'] {
     height: 0;
     width: 0;
@@ -30,6 +28,7 @@ $active-color: #3071a9;
   }
 
   label {
+    pointer-events: all;
     cursor: pointer;
     width: ($size * 1.8);
     height: ($size);

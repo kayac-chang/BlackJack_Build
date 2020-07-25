@@ -1,21 +1,37 @@
-import React, { PropsWithChildren } from "react";
-import styles from "./GameRules.module.scss";
-import { useTranslation } from "react-i18next";
+import React, { PropsWithChildren } from 'react';
+import styles from './GameRules.module.scss';
+import { useTranslation } from 'react-i18next';
 
 type SectionProps = {
   title: string;
-  descriptions: string[];
+  table?: { name: string; description: string }[];
+  descriptions?: string[];
 };
-function Section({ title, descriptions }: SectionProps) {
+function Section({ title, table = [], descriptions = [] }: SectionProps) {
   return (
     <section>
       <h4>{title}</h4>
 
-      <ul>
-        {descriptions.map((description, index) => (
-          <li key={`${title}${index}`}>{description}</li>
-        ))}
-      </ul>
+      {table.length > 0 && (
+        <table>
+          <tbody>
+            {table.map(({ name, description }) => (
+              <tr key={name}>
+                <td>{name}</td>
+                <td>{description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+
+      {descriptions.length > 0 && (
+        <ul>
+          {descriptions.map((description, index) => (
+            <li key={`${title}${index}`}>{description}</li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 }
@@ -34,14 +50,14 @@ function Title({ children }: TitleProps) {
 export default function GameRules() {
   const [t] = useTranslation();
 
-  const sections = t("gamerules", { returnObjects: true }) as SectionProps[];
+  const sections = t('gamerules', { returnObjects: true }) as SectionProps[];
 
   return (
     <div className={styles.gameRules}>
       <Title>game rules</Title>
 
-      {sections.map(({ title, descriptions }) => (
-        <Section key={title} title={title} descriptions={descriptions} />
+      {sections.map((props) => (
+        <Section key={props.title} {...props} />
       ))}
     </div>
   );

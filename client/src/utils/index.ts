@@ -1,6 +1,7 @@
-export * from "./device";
-export * from "./format";
-export * from "./check";
+export * from './device';
+export * from './format';
+export * from './check';
+export * from './react';
 
 export function getURLParam(key: string) {
   const url = new URL(window.location.href);
@@ -10,14 +11,14 @@ export function getURLParam(key: string) {
 
 export async function getToken() {
   const res = await fetch(`https://api.sunnyland.fun/v1/tokens`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      Session: "8b674aec-156c-4894-a102-f3315272f626",
+      'Content-Type': 'application/json',
+      Session: '8b674aec-156c-4894-a102-f3315272f626',
     },
     body: JSON.stringify({
-      game: "catpunch",
-      username: "mouse1",
+      game: 'catpunch',
+      username: 'mouse1',
     }),
   });
 
@@ -79,9 +80,9 @@ export function whenVisibilityChange(func: (pass: number) => void) {
 
   handle();
 
-  document.addEventListener("visibilitychange", handle);
+  document.addEventListener('visibilitychange', handle);
 
-  return () => document.removeEventListener("visibilitychange", handle);
+  return () => document.removeEventListener('visibilitychange', handle);
 }
 
 type CondFunc = () => Promise<boolean>;
@@ -97,11 +98,11 @@ export function looper(fn: CondFunc) {
 }
 
 export function toBase64(img: HTMLImageElement) {
-  const canvas = document.createElement("canvas");
+  const canvas = document.createElement('canvas');
 
   canvas.width = img.width;
   canvas.height = img.height;
-  canvas.getContext("2d")?.drawImage(img, 0, 0);
+  canvas.getContext('2d')?.drawImage(img, 0, 0);
 
   return canvas.toDataURL();
 }

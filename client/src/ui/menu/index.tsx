@@ -1,17 +1,21 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useState, useCallback } from 'react';
 import styles from './Menu.module.scss';
 import Drawer from './components/Drawer';
 import { Trigger } from './components/Button';
 import { Settings, Info, Clock, LogOut } from 'react-feather';
 import { SettingsPage, HistoryPage, GameRulesPage } from './pages';
 import clsx from 'clsx';
+import { useModelState } from '../modal';
+import { useNavigate } from 'react-router-dom';
 
 // ===== Menu =====
 export default function Menu() {
   const [page, setPage] = useState<ReactNode | undefined>();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const navTo = useNavigate();
+  const { dispatch } = useModelState();
 
-  const options = [
+  const [options] = useState([
     {
       icon: <Info />,
       title: 'rules',
@@ -30,14 +34,22 @@ export default function Menu() {
     {
       icon: <LogOut />,
       title: 'home',
-      onClick: () => console.log('home'),
+      onClick: () =>
+        dispatch({
+          type: 'show',
+          state: {
+            title: 'Back to home',
+            msg: 'are you sure to exit?',
+            onConfirm: () => navTo(-1),
+          },
+        }),
     },
-  ];
+  ]);
 
-  function onTrigger() {
-    setDrawerOpen(!isDrawerOpen);
+  const onTrigger = useCallback(() => {
+    setDrawerOpen((flag) => !flag);
     setPage(undefined);
-  }
+  }, [setDrawerOpen, setPage]);
 
   return (
     <>

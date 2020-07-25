@@ -1,4 +1,5 @@
-import Slider from "./Slider";
-import Toggle from "./Toggle";
+import Slider from './Slider';
+import Toggle from './Toggle';
+import Select from './Select';
 
-export { Slider, Toggle };
+export { Slider, Toggle, Select };

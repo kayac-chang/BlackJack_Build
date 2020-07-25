@@ -1,6 +1,6 @@
 import { createMachine, interpret, State, Interpreter } from 'xstate';
 import store from '../../../store';
-import services from '../../../services';
+import services from '../../../service';
 import { SEAT, GAME_STATE } from '../../../models';
 import { addBet } from '../../../store/actions';
 

@@ -1,6 +1,6 @@
-import { Container, Sprite, Texture } from "pixi.js";
-import RES from "../../../assets";
-import GameText from "../text";
+import { Container, Sprite, Texture } from 'pixi.js';
+import RES from '../../../assets';
+import { GameText } from '../field';
 
 type Props = {
   texture: Texture;
@@ -28,8 +28,8 @@ function Icon({ texture, msg, style = {}, textPos }: Props) {
 
 export function Win() {
   return Icon({
-    texture: RES.getTexture("ICON_WIN"),
-    msg: "WIN",
+    texture: RES.getTexture('ICON_WIN'),
+    msg: 'WIN',
     style: { fill: 0x000000 },
     textPos: { x: 0, y: 76 },
   });
@@ -37,16 +37,16 @@ export function Win() {
 
 export function Lose() {
   return Icon({
-    texture: RES.getTexture("ICON_LOSE"),
-    msg: "LOSE",
+    texture: RES.getTexture('ICON_LOSE'),
+    msg: 'LOSE',
     textPos: { x: 0, y: 65 },
   });
 }
 
 export function Bust() {
   return Icon({
-    texture: RES.getTexture("ICON_BUST"),
-    msg: "BUST",
+    texture: RES.getTexture('ICON_BUST'),
+    msg: 'BUST',
     textPos: { x: 0, y: 65 },
   });
 }

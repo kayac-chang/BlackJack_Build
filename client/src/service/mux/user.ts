@@ -5,8 +5,11 @@ import store from '../../store';
 import { login, update, commitBet, updateSeats, updateHand } from '../../store/actions';
 
 function onLogin(service: Service, { user_name }: LoginProp) {
+  const { user } = store.getState();
+
   store.dispatch(
     login({
+      ...user,
       name: String(user_name),
       balance: 0,
       totalBet: 0,

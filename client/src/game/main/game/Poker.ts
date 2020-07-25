@@ -1,10 +1,10 @@
-import Res from "../../../assets";
-import POKER from "../../../assets/poker";
-import { Sprite, SimpleMesh, Container } from "pixi.js";
-import gsap from "gsap";
-import { Power0 } from "gsap/gsap-core";
-import { SUIT, RANK } from "../../../models";
-import { nextFrame } from "../../../utils";
+import Res from '../../../assets';
+import POKER from '../../../assets/poker';
+import { Sprite, SimpleMesh, Container } from 'pixi.js';
+import gsap from 'gsap';
+import { Power0 } from 'gsap/gsap-core';
+import { SUIT, RANK } from '../../../models';
+import { nextFrame } from '../../../utils';
 
 export default class Poker extends Container {
   //
@@ -13,7 +13,7 @@ export default class Poker extends Container {
   constructor(suit: SUIT, rank: RANK) {
     super();
 
-    const back = new Face("BACK");
+    const back = new Face('BACK');
     const front = new Face(`${suit}_${rank}` as keyof typeof POKER);
     this.addChild(back, front);
   }
@@ -54,7 +54,7 @@ class Face extends SimpleMesh {
     sprite.anchor.set(0.5);
 
     requestAnimationFrame(() => {
-      this.vertices = (sprite as any)["vertexData"];
+      this.vertices = (sprite as any)['vertexData'];
     });
   }
 }
