@@ -3,6 +3,18 @@ export * from './format';
 export * from './check';
 export * from './react';
 
+export function isLocalStorageSupport() {
+  const test = 'test';
+
+  try {
+    localStorage.setItem(test, test);
+    localStorage.removeItem(test);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 export function getURLParam(key: string) {
   const url = new URL(window.location.href);
 
