@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState, CSSProperties } from 'react';
-import styles from './Loading.module.scss';
-import { useNavigate } from 'react-router-dom';
-import RES from '../../assets';
-import { ASSETS } from '../../assets/pkg';
+import React, { useCallback, useEffect, useState, CSSProperties } from "react";
+import styles from "./Loading.module.scss";
+import { useNavigate } from "react-router-dom";
+import RES from "../../assets";
+import { ASSETS } from "../../assets/pkg";
 
 type Props = {
   max?: number;
@@ -37,18 +37,28 @@ export default function Loading() {
   useEffect(() => {
     RES.onProgress(setProgress);
 
-    RES.load(ASSETS);
+    RES.load(ASSETS).then(() => setProgress(100));
   }, [setProgress]);
 
   return (
     <div className={styles.layout} onClick={onClick}>
       <div>
-        <img className={styles.background} src={RES.getBase64('BG')} alt={'BG'} />
-        <img className={styles.logo} src={RES.getBase64('LOGO')} alt={'LOGO'} />
+        <img
+          className={styles.background}
+          src={RES.getBase64("BG")}
+          alt={"BG"}
+        />
+        <img className={styles.logo} src={RES.getBase64("LOGO")} alt={"LOGO"} />
 
-        <ProgressBar value={progress} style={{ opacity: progress < 100 ? 1 : 0 }} />
+        <ProgressBar
+          value={progress}
+          style={{ opacity: progress < 100 ? 1 : 0 }}
+        />
 
-        <div className={styles.click} style={{ opacity: progress < 100 ? 0 : 1 }}>
+        <div
+          className={styles.click}
+          style={{ opacity: progress < 100 ? 0 : 1 }}
+        >
           <h4>press anywhere to start</h4>
         </div>
       </div>

@@ -1,11 +1,23 @@
-import EventEmitter from 'eventemitter3';
-import { login } from './requests';
-import { S2C, C2S, Token } from '../models';
-import MUX from './mux';
+import EventEmitter from "eventemitter3";
+import { login } from "./requests";
+import { S2C, C2S, Token } from "../models";
+import MUX from "./mux";
 
 interface Frame {
   cmd: S2C.ROOM | S2C.ROUND | S2C.SEAT | S2C.USER | C2S.CLIENT;
   data: any;
+}
+
+function isLocalStorageSupport() {
+  const test = "test";
+
+  try {
+    localStorage.setItem(test, test);
+    localStorage.removeItem(test);
+    return true;
+  } catch (e) {
+    return false;
+  }
 }
 
 export default class Service extends EventEmitter {
@@ -20,21 +32,21 @@ export default class Service extends EventEmitter {
   }
 
   async connect(token?: Token) {
-    if (!token) {
+    const isSupport = isLocalStorageSupport();
+
+    if (isSupport) {
       //
-      const cache = localStorage.getItem('token');
-      if (!cache) {
+      token = token || localStorage.getItem("token") || undefined;
+      if (!token) {
         throw new Error(`service required token, please connect first`);
       }
 
-      token = cache;
+      localStorage.setItem("token", token);
     }
 
     this.token = `Bearer ${token}`;
 
     await new Promise((resolve) => (this.socket.onopen = resolve));
-
-    localStorage.setItem('token', token);
 
     this.socket.onmessage = (event) => this.onMessage(event);
 
