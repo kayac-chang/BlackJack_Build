@@ -20,21 +20,9 @@ export default class Service extends EventEmitter {
   }
 
   async connect(token?: Token) {
-    if (!token) {
-      //
-      const cache = localStorage.getItem('token');
-      if (!cache) {
-        throw new Error(`service required token, please connect first`);
-      }
-
-      token = cache;
-    }
-
     this.token = `Bearer ${token}`;
 
     await new Promise((resolve) => (this.socket.onopen = resolve));
-
-    localStorage.setItem('token', token);
 
     this.socket.onmessage = (event) => this.onMessage(event);
 

@@ -2,11 +2,12 @@ import React, { ReactNode, useState, useCallback } from 'react';
 import styles from './Menu.module.scss';
 import Drawer from './components/Drawer';
 import { Trigger } from './components/Button';
-import { Settings, Info, Clock, LogOut } from 'react-feather';
-import { SettingsPage, HistoryPage, GameRulesPage } from './pages';
+import { Settings, Info, LogOut } from 'react-feather';
+import { SettingsPage, GameRulesPage } from './pages';
 import clsx from 'clsx';
 import { useModelState } from '../modal';
 import { useNavigate } from 'react-router-dom';
+import { isLocalStorageSupport } from '../../utils';
 
 // ===== Menu =====
 export default function Menu() {
@@ -26,11 +27,12 @@ export default function Menu() {
       title: 'settings',
       onClick: () => setPage(<SettingsPage />),
     },
-    {
-      icon: <Clock />,
-      title: 'history',
-      onClick: () => setPage(<HistoryPage />),
-    },
+    // TODO: History
+    // {
+    //   icon: <Clock />,
+    //   title: 'history',
+    //   onClick: () => setPage(<HistoryPage />),
+    // },
     {
       icon: <LogOut />,
       title: 'home',
@@ -40,7 +42,17 @@ export default function Menu() {
           state: {
             title: 'Back to home',
             msg: 'are you sure to exit?',
-            onConfirm: () => navTo(-1),
+            onConfirm: () => {
+              if (isLocalStorageSupport()) {
+                const lobby = localStorage.getItem('lobby');
+
+                if (lobby) {
+                  return (window.location.href = lobby);
+                }
+              }
+
+              return navTo(-1);
+            },
           },
         }),
     },
