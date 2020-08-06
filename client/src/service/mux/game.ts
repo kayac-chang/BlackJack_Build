@@ -13,6 +13,7 @@ import {
   update,
   updateSeats,
   editRoom,
+  replaceBet,
 } from '../../store/actions';
 
 import {
@@ -68,7 +69,7 @@ function onCountDown(service: Service, { expire }: CountDownProp) {
 }
 
 function onBetEnd(service: Service, { state }: GameProp) {
-  const { game } = store.getState();
+  const { game, seat, bet, user } = store.getState();
 
   store.dispatch(
     betEnd({
@@ -76,6 +77,25 @@ function onBetEnd(service: Service, { state }: GameProp) {
       state: toGameState(state),
     })
   );
+
+  const history = bet.history.filter((bet) => {
+    if (!bet.seat) {
+      return false;
+    }
+
+    if (seat[bet.seat].commited) {
+      return true;
+    }
+
+    user.balance += seat[bet.seat].bet;
+    seat[bet.seat].bet = 0;
+
+    return false;
+  });
+
+  store.dispatch(update(user));
+  store.dispatch(updateSeats(seat));
+  store.dispatch(replaceBet(history));
 }
 
 function onSettle(service: Service, data: GameProp) {

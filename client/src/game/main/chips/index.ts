@@ -46,13 +46,28 @@ function updateChip(groups: Container[]) {
     transIn(_chip);
   }
 
+  function clear() {
+    for (const { seat } of pre) {
+      if (!seat) {
+        return;
+      }
+
+      const group = findGroupBySeatID(groups, seat);
+      group?.removeChildren();
+    }
+  }
+
   return function onUpdate(history: Bet[]) {
     //
+    if (history.length === 0) {
+      clear();
+    }
+
     if (history.length > pre.length) {
       without(pre, history).forEach(addChip);
     }
 
-    pre = [...history];
+    pre = history;
   };
 }
 

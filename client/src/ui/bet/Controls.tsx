@@ -4,7 +4,7 @@ import Control from '../components/button/Control';
 import styles from './Bet.module.scss';
 import { useSelector, useDispatch } from 'react-redux';
 import { AppState } from '../../store';
-import { clearBet, undoBet, replaceBet, addBet } from '../../store/actions';
+import { clearBet, undoBet, replaceBet } from '../../store/actions';
 import services from '../../service';
 import { throttleBy } from '../../utils';
 import RES from '../../assets';
@@ -17,6 +17,7 @@ export default function Controls({ enable }: Props) {
   const dispatch = useDispatch();
   const user = useSelector((state: AppState) => state.user);
   const seats = useSelector((state: AppState) => state.seat);
+  const maxBet = useSelector((state: AppState) => state.game.bet.max);
   const countdown = useSelector((state: AppState) => state.game.countdown);
 
   const history = useSelector((state: AppState) => state.bet.history);
@@ -66,10 +67,6 @@ export default function Controls({ enable }: Props) {
     [enable, history, countdown]
   );
 
-  useEffect(() => {
-    enable && countdown === 2 && onDeal();
-  }, [enable, countdown, onDeal]);
-
   const onRepeat = useCallback(
     async function () {
       if (!enable) {
@@ -98,16 +95,21 @@ export default function Controls({ enable }: Props) {
   );
 
   const onDouble = useCallback(
-    function () {
+    () => {
       if (countdown <= 2) {
         return;
       }
 
-      dispatch(clearBet(user));
+      const newBet = history.map((bet) => ({ ...bet, amount: bet.amount * 2 }));
 
-      [...history, ...history].forEach((bet) => dispatch(addBet(bet)));
+      const total = newBet.reduce((acc, { amount }) => acc + amount, 0)
+
+      if (maxBet > user.totalBet + total) {
+        dispatch(clearBet(user));
+        dispatch(replaceBet(newBet));
+      }
     },
-    [dispatch, countdown, user, history]
+    [dispatch, countdown, user, history, maxBet]
   );
 
   return (
