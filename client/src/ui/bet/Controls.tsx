@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { X, CornerUpLeft, RotateCw } from 'react-feather';
 import Control from '../components/button/Control';
 import styles from './Bet.module.scss';
