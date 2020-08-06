@@ -6,6 +6,7 @@ COPY ./client .
 COPY .env .
 
 RUN apk add --no-cache python make g++
+RUN yarn config set registry https://registry.npmjs.org
 RUN yarn install && yarn build
 
 FROM nginx:alpine
