@@ -87,7 +87,6 @@ function onBetEnd(service: Service, { state }: GameProp) {
       return true;
     }
 
-    user.balance += seat[bet.seat].bet;
     seat[bet.seat].bet = 0;
 
     return false;
