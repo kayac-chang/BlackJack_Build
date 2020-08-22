@@ -34,7 +34,7 @@ type Schema<T> =
 export type HandsService = Interpreter<Context, any, Event, Schema<Context>>;
 export type HandsState = State<Context, Event, any, Schema<Context>>;
 
-function toIcon(result: RESULT): Container | undefined {
+function toIcon (result: RESULT): Container | undefined {
   if (result === RESULT.LOSE) {
     return Lose();
   }
@@ -56,7 +56,7 @@ type Elements = {
   results: Container;
 };
 
-function createHandMachine(id: SEAT, { handL, handR, fieldL, fieldR, results }: Elements) {
+function createHandMachine (id: SEAT, { handL, handR, fieldL, fieldR, results }: Elements) {
   //
   return createMachine<Context, Event, Schema<Context>>(
     {
@@ -167,7 +167,7 @@ function createHandMachine(id: SEAT, { handL, handR, fieldL, fieldR, results }: 
             };
 
             if (event.type === 'INIT_SPLIT') {
-              [...handL.children, ...handR.children].forEach((poker) => {
+              [...handL.children, ...handR.children].forEach(poker => {
                 const target = event.hands.find(({ id }) => id === poker.name);
                 if (!target) {
                   return;
@@ -200,7 +200,7 @@ function createHandMachine(id: SEAT, { handL, handR, fieldL, fieldR, results }: 
           if (id === SEAT.DEALER && event.type === 'DEAL_NORMAL') {
             const { card, pair } = event.hand;
 
-            const fold = mapping[pair].children.find((poker) => !(poker as Poker).faceUp);
+            const fold = mapping[pair].children.find(poker => !(poker as Poker).faceUp);
             if (fold) {
               const poker = new Poker(card.suit, card.rank);
 
@@ -367,10 +367,11 @@ function createHandMachine(id: SEAT, { handL, handR, fieldL, fieldR, results }: 
   );
 }
 
-function onGameStateChange(service: HandsService, id: SEAT) {
+function onGameStateChange (service: HandsService, id: SEAT) {
   let hasJoin = false;
 
   return function (state: GAME_STATE) {
+    console.log();
     const { seat } = store.getState();
 
     const canJoin = id === SEAT.DEALER || (seat[id].player && seat[id].bet);
@@ -400,7 +401,7 @@ function onGameStateChange(service: HandsService, id: SEAT) {
   };
 }
 
-function onHandsChange(service: HandsService, id: SEAT) {
+function onHandsChange (service: HandsService, id: SEAT) {
   let last: Hand[] = [];
 
   return function (hands: Hand[]) {
@@ -427,7 +428,7 @@ function onHandsChange(service: HandsService, id: SEAT) {
   };
 }
 
-function onSplit(service: HandsService, id: SEAT) {
+function onSplit (service: HandsService, id: SEAT) {
   return function (split: boolean) {
     if (!split) {
       return;
@@ -438,7 +439,7 @@ function onSplit(service: HandsService, id: SEAT) {
   };
 }
 
-function onTurnChange(service: HandsService, id: SEAT, { handL, handR }: { handL: Container; handR: Container }) {
+function onTurnChange (service: HandsService, id: SEAT, { handL, handR }: { handL: Container; handR: Container }) {
   const mapping = {
     [PAIR.L]: handL,
     [PAIR.R]: handR,
@@ -460,7 +461,7 @@ function onTurnChange(service: HandsService, id: SEAT, { handL, handR }: { handL
   };
 }
 
-export function createHandService(id: SEAT, container: Container): HandsService {
+export function createHandService (id: SEAT, container: Container): HandsService {
   const handL = new Container();
   const handR = new Container();
   container.addChild(handL, handR);
@@ -474,12 +475,12 @@ export function createHandService(id: SEAT, container: Container): HandsService 
 
   const service = interpret(createHandMachine(id, { handL, handR, fieldL, fieldR, results }));
 
-  observe((state) => state.game.state, onGameStateChange(service, id));
-  observe((state) => state.game.turn, onTurnChange(service, id, { handL, handR }));
-  observe((state) => state.hand[id], onHandsChange(service, id));
-  observe((state) => state.seat[id].split, onSplit(service, id));
+  observe(state => state.game.state, onGameStateChange(service, id));
+  observe(state => state.game.turn, onTurnChange(service, id, { handL, handR }));
+  observe(state => state.hand[id], onHandsChange(service, id));
+  observe(state => state.seat[id].split, onSplit(service, id));
 
-  service.onTransition((state) => {
+  service.onTransition(state => {
     if (!state.changed) {
       return;
     }

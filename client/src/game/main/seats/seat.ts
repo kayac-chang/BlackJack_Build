@@ -82,11 +82,7 @@ export function createSeat ({ id, x, y }: Prop): Seat {
 
   observe(
     state => state.seat[id].player,
-    user => {
-      console.log(user);
-
-      service.send({ type: user ? 'JOIN' : 'LEAVE', user });
-    }
+    user => service.send({ type: user ? 'JOIN' : 'LEAVE', user })
   );
   observe(
     state => state.game.state,
