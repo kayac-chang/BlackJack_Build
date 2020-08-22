@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"sync"
 
 	uuid "github.com/satori/go.uuid"
 	"gitlab.fbk168.com/gamedevjp/blackjack/server/controller/protoc"
@@ -61,20 +62,38 @@ func ActionCheck(c *client, req *Frame) (bool, error) {
 			return ok, err
 		}
 
+		var betAmount float64
+		for _, item := range obj.Bets {
+			betAmount += item.Bet
+		}
+		if betAmount > c.Balance {
+			return ok, errors.New("Balance error")
+		}
+
+		var syncWait sync.WaitGroup
+		//var ok bool
+		var err error
 		// TODO 新注單
 		for _, item := range obj.Bets {
-			order, errproto, err := NewOrder(user.UserServerInfo.Token, user.UserGameInfo.IDStr, int64(item.Bet))
+			syncWait.Add(1)
+			go func(goItem protocol.BetData) {
+				defer syncWait.Done()
+				order, errproto, apierr := NewOrder(user.UserServerInfo.Token, user.UserGameInfo.IDStr, int64(goItem.Bet))
 
-			if errproto != nil {
-				return ok, errors.New(fmt.Sprint("%d : %s", errproto.GetCode(), errproto.GetMessage()))
-			} else if err != nil {
-				return ok, err
-			}
+				if errproto != nil {
+					err = errors.New(fmt.Sprint("%d : %s", errproto.GetCode(), errproto.GetMessage()))
+					return
+				} else if err != nil {
+					err = apierr
+					return
+				}
 
-			c.betOrderRes[fmt.Sprintf("%d-%s", item.No, action.Bet)] = order
-			c.BetAmount[fmt.Sprintf("%d-%s", item.No, action.Bet)] = item.Bet
-			user.UserGameInfo.SumMoney(int64(item.Bet * -1))
+				c.betOrderRes[fmt.Sprintf("%d-%s", goItem.No, action.Bet)] = order
+				c.BetAmount[fmt.Sprintf("%d-%s", goItem.No, action.Bet)] = goItem.Bet
+				user.UserGameInfo.SumMoney(int64(goItem.Bet * -1))
+			}(item)
 		}
+		syncWait.Wait()
 
 		c.Balance = float64(user.UserGameInfo.GetMoney())
 		c.write(NewS2CMemberInfo(user.UserGameInfo.Name, c.Balance))
