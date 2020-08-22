@@ -5,19 +5,19 @@ import store from '../../store';
 import { addRoom, editRoom, join, updateSeats } from '../../store/actions';
 import { GameProp, toGame, toSeats, EVENT, RoomProp, toRoom } from '../types';
 
-function onLobby(service: Service, data: RoomProp[]) {
+function onLobby (service: Service, data: RoomProp[]) {
   const rooms = data.map(toRoom);
 
   store.dispatch(addRoom(rooms));
 }
 
-function onUpdate(service: Service, data: RoomProp) {
+function onUpdate (service: Service, data: RoomProp) {
   const room = toRoom(data);
 
   store.dispatch(editRoom(room));
 }
 
-function onJoin(service: Service, data: GameProp) {
+function onJoin (service: Service, data: GameProp) {
   const { room } = store.getState();
 
   const action = store.dispatch(join(toGame(data)));
