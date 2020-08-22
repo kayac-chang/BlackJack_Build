@@ -371,7 +371,6 @@ function onGameStateChange (service: HandsService, id: SEAT) {
   let hasJoin = false;
 
   return function (state: GAME_STATE) {
-    console.log();
     const { seat } = store.getState();
 
     const canJoin = id === SEAT.DEALER || (seat[id].player && seat[id].bet);
