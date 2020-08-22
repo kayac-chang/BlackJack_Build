@@ -12,8 +12,8 @@ interface Prop {
   y: number;
 }
 
-function updateSeat(seat: Sprite) {
-  return function onChange(state: SeatState) {
+function updateSeat (seat: Sprite) {
+  return function onChange (state: SeatState) {
     if (state.matches('empty')) {
       seat.texture = RES.getTexture('SELECT_SEAT_NORMAL');
     }
@@ -30,8 +30,8 @@ function updateSeat(seat: Sprite) {
   };
 }
 
-function updateField(field: Field) {
-  return function onChange(state: SeatState) {
+function updateField (field: Field) {
+  return function onChange (state: SeatState) {
     if (state.matches('empty')) {
       field.visible = false;
     }
@@ -50,7 +50,7 @@ export interface Seat extends Container {
   service: SeatService;
 }
 
-export function createSeat({ id, x, y }: Prop): Seat {
+export function createSeat ({ id, x, y }: Prop): Seat {
   const it = new Container();
   it.name = SEAT[id];
   it.buttonMode = true;
@@ -81,12 +81,16 @@ export function createSeat({ id, x, y }: Prop): Seat {
   it.on('removed', () => service.stop());
 
   observe(
-    (state) => state.seat[id].player,
-    (user) => service.send({ type: user ? 'JOIN' : 'LEAVE', user })
+    state => state.seat[id].player,
+    user => {
+      console.log(user);
+
+      service.send({ type: user ? 'JOIN' : 'LEAVE', user });
+    }
   );
   observe(
-    (state) => state.game.state,
-    (state) => service.send({ type: 'STATE' })
+    state => state.game.state,
+    state => service.send({ type: 'STATE' })
   );
 
   return Object.assign(it, { service });

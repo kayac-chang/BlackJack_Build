@@ -87,6 +87,10 @@ function createHandMachine(id: SEAT, { handL, handR, fieldL, fieldR, results }: 
               on: {
                 DEAL_NORMAL: { target: 'deal', actions: ['updateHistory', 'updatePokers', 'updateScores'] },
                 RESULT_NORMAL: { target: 'result', actions: 'updateResults' },
+                CLEAR: {
+                  target: 'idle',
+                  actions: ['updateHistory', 'updatePokers', 'updateScores', 'updateResults', 'updateSplit'],
+                },
               },
             },
 
@@ -115,6 +119,10 @@ function createHandMachine(id: SEAT, { handL, handR, fieldL, fieldR, results }: 
               on: {
                 DEAL_SPLIT: { target: 'deal', actions: ['updateHistory', 'updatePokers', 'updateScores'] },
                 RESULT_SPLIT: { target: 'result', actions: 'updateResults' },
+                CLEAR: {
+                  target: 'idle',
+                  actions: ['updateHistory', 'updatePokers', 'updateScores', 'updateResults', 'updateSplit'],
+                },
               },
             },
 
@@ -367,7 +375,7 @@ function onGameStateChange(service: HandsService, id: SEAT) {
 
     const canJoin = id === SEAT.DEALER || (seat[id].player && seat[id].bet);
 
-    if (state === GAME_STATE.BETTING && hasJoin) {
+    if ((state === GAME_STATE.BETTING && hasJoin) || (hasJoin && !canJoin)) {
       hasJoin = false;
 
       service.send({ type: 'CLEAR' });

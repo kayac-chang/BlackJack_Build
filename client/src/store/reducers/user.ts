@@ -36,7 +36,7 @@ export default function userReducer(state = initialState, action: UserAction | B
 
     return {
       ...state,
-      balance: state.balance - totalBet,
+      balance: state.balance + state.totalBet - totalBet,
       totalBet,
     };
   }
