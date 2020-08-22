@@ -137,7 +137,7 @@ func (c *client) serve() {
 						EndOrder(c.Token, betOrder)
 					}
 					c.betOrderRes = make(map[string]IOrder)
-					c.Balance = float64(user.UserGameInfo.MoneyU)
+					c.Balance = float64(user.UserGameInfo.GetMoney())
 					c.write(NewS2CMemberInfo(user.UserGameInfo.Name, c.Balance))
 
 					var total float64
