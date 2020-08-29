@@ -103,7 +103,7 @@ func NewOrder(token, userIDStr string, betMoney int64) (*protoc.Order, *protoc.E
 	}
 
 	url := fmt.Sprintf(NewOrderURL, conf.ULG168APIHost, version)
-	fmt.Println("NewOrder:", url, " token:", token, " payload:", orderProto)
+	fmt.Println("NewOrder: payload:", orderProto)
 	res, err := newOrderAPI(url, token, payload)
 	if err != nil {
 		if res != nil {
@@ -143,7 +143,7 @@ func NewSubOrder(token string, orderProto *protoc.Order, betMoney int64) (*proto
 	}
 
 	url := fmt.Sprintf(NewSubOrderURL, conf.ULG168APIHost, version)
-	fmt.Println("NewSubOrder:", url, " token:", token, " payload:", orderSubProto)
+	fmt.Println("NewSubOrder: payload:", orderSubProto)
 	res, err := newSubOrderAPI(url, token, payload)
 	if err != nil {
 		if res != nil {
@@ -174,7 +174,7 @@ func UpdateOrder(token string, orderProto *protoc.Order) (*protoc.Order, *protoc
 	}
 
 	url := fmt.Sprintf(GetOrderURL, conf.ULG168APIHost, version, orderProto.GetOrderId())
-	fmt.Println("UpdateOrder:", url, " token:", token, " payload:", orderProto)
+	fmt.Println("UpdateOrder: payload:", orderProto)
 	res, err := updateOrderAPI(url, token, payload)
 	if err != nil {
 		if res != nil {
@@ -196,6 +196,7 @@ func UpdateOrder(token string, orderProto *protoc.Order) (*protoc.Order, *protoc
 // EndOrder ...
 func EndOrder(token string, orderProto *protoc.Order) (*protoc.Order, *protoc.Error, error) {
 	orderProto.CompletedAt = ptypes.TimestampNow()
+	orderProto.State = protoc.Order_Completed
 	if conf.Dev {
 		return orderProto, nil, nil
 	}
@@ -206,7 +207,7 @@ func EndOrder(token string, orderProto *protoc.Order) (*protoc.Order, *protoc.Er
 	}
 
 	url := fmt.Sprintf(GetOrderURL, conf.ULG168APIHost, version, orderProto.GetOrderId())
-	fmt.Println("EndOrder:", url, " token:", token, " payload:", orderProto)
+	fmt.Println("EndOrder: payload:", orderProto)
 	res, err := updateOrderAPI(url, token, payload)
 	if err != nil {
 		if res != nil {
