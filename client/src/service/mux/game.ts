@@ -1,4 +1,4 @@
-import { S2C } from '../../models';
+import { S2C, Hand, RANK } from '../../models';
 import Service from '../service';
 
 import store from '../../store';
@@ -14,6 +14,7 @@ import {
   updateSeats,
   editRoom,
   replaceBet,
+  updateHand,
 } from '../../store/actions';
 
 import {
@@ -130,8 +131,25 @@ function onBegin(service: Service, prop: DealProp[]) {
   store.dispatch(dealCard(hands));
 }
 
+function hasAce(hands: Hand[]) {
+  return hands.filter(({ card }) => card.rank === RANK.ACE).length;
+}
+
 function onDeal(service: Service, prop: DealProp) {
-  store.dispatch(dealCard([toHand(prop)]));
+  const newHand = toHand(prop);
+
+  store.dispatch(dealCard([newHand]));
+
+  const { hand } = store.getState();
+
+  const hands = hand[newHand.seat];
+  const latest = hands[hands.length - 1];
+
+  if (hasAce(hands) && Number(latest.points) > 11) {
+    latest.points = `${Number(latest.points) - 11} / ${latest.points}`;
+
+    store.dispatch(updateHand(hand));
+  }
 }
 
 let cancel: () => void;

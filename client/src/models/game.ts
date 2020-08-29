@@ -42,6 +42,6 @@ export interface Hand {
   id: string;
   seat: SEAT;
   card: Card;
-  points: number;
+  points: string;
   pair: PAIR;
 }

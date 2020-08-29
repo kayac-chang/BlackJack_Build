@@ -21,7 +21,7 @@ export function toHand({ no, card, points, pile }: DealProp): Hand {
     id: v4(),
     seat: toSeatNum(no),
     card: toCard(card),
-    points: Number(points),
+    points: String(points),
     pair: toPair(pile),
   };
 }

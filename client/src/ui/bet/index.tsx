@@ -8,7 +8,7 @@ import Controls from './Controls';
 import Chips from './Chips';
 import { animated, useSpring } from 'react-spring';
 
-export default function Bet () {
+export default function Bet() {
   const user = useSelector((state: AppState) => state.user);
   const seats = useSelector((state: AppState) => state.seat);
   const { state, countdown } = useSelector((state: AppState) => state.game);
