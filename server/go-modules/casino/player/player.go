@@ -144,7 +144,7 @@ func New(id, name string, client Client) *Player {
 	}
 
 	if name == "" {
-		name = "???"
+		name = "unknow"
 	}
 	ctx, quit := context.WithCancel(context.Background())
 
