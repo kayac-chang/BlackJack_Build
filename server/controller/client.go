@@ -13,7 +13,6 @@ import (
 	"gitlab.fbk168.com/gamedevjp/blackjack/server/controller/protoc"
 	"gitlab.fbk168.com/gamedevjp/blackjack/server/go-modules/frame"
 	"gitlab.fbk168.com/gamedevjp/blackjack/server/go-modules/frame/code"
-	"gitlab.fbk168.com/gamedevjp/blackjack/server/go-modules/ulgsdk/order"
 	"gitlab.fbk168.com/gamedevjp/blackjack/server/protocol"
 	"gitlab.fbk168.com/gamedevjp/blackjack/server/protocol/action"
 	"gitlab.fbk168.com/gamedevjp/blackjack/server/protocol/command"
@@ -165,77 +164,6 @@ func (c *client) serve() {
 	}
 }
 
-func settlement(basic order.Basic, action, banker string, v protocol.Pile, o map[string]IOrder) {
-	// amount := v.Bet
-	// win := v.Pay
-	// res := strings.Join(v.Cards.Codes(), ",")
-	// now := timetool.GetNowByUTC()
-
-	// for key, action := range o {
-	// 	if
-	// }
-
-	if v.Pay >= 200 {
-		fmt.Println("-----")
-		js, _ := json.Marshal(o)
-		vjs, _ := json.Marshal(v)
-		fmt.Println("settlement v:", string(vjs))
-		fmt.Println("o", string(js))
-		fmt.Println("-----")
-	} else {
-		js, _ := json.Marshal(o)
-		vjs, _ := json.Marshal(v)
-		fmt.Println("settlement v:", string(vjs))
-		fmt.Println("o", string(js))
-	}
-
-	// for _, oi := range o.OrderItems {
-	// 	if oi.PlayCode != action {
-	// 		continue
-	// 	}
-	// 	rate := win / amount
-	// 	fmt.Println("settlement 1")
-	// 	// TODO 子單結算
-	// 	_, err := order.OrderItemPayout(o.UUID, oi.UUID, &order.PayoutOrderItem{
-	// 		Basic:    basic,
-	// 		Rate:     rate,
-	// 		Win:      win,
-	// 		Result:   res,
-	// 		PayoutAt: now,
-	// 	})
-	// 	if err != nil {
-	// 		log.Println("settlement error: ", err.Error())
-	// 		continue
-	// 	}
-
-	// 	oi.Rate = &rate
-	// 	oi.Win = &win
-	// 	oi.Result = &res
-	// 	oi.Status = 2
-	// 	oi.PayoutAt = &now
-	// }
-
-	// payout := true
-	// for _, oi := range o.OrderItems {
-	// 	if oi.Status != 2 {
-	// 		payout = false
-	// 	}
-	// }
-
-	// if payout {
-	// 	fmt.Println("settlement 2")
-	// 	// TODO 母單結算
-	// 	if _, err := order.OrderPayout(o.UUID, &order.PayoutOrder{
-	// 		Basic:    basic,
-	// 		Result:   banker,
-	// 		Summary:  *o.Summary,
-	// 		PayoutAt: now,
-	// 	}); err != nil {
-	// 		log.Println("settlement error: ", err.Error())
-	// 	}
-	// }
-}
-
 func (c *client) listenAndServe() {
 	go c.serve()
 	defer func() {
@@ -284,8 +212,6 @@ func (c *client) listenAndServe() {
 		}
 		req.Data = d
 
-		js, _ := json.Marshal(req.Frame)
-		fmt.Println("client: ", string(js))
 		c.out <- req.Frame
 	}
 }

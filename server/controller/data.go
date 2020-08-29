@@ -1,8 +1,6 @@
 package controller
 
 import (
-	"fmt"
-
 	uuid "github.com/satori/go.uuid"
 	"gitlab.fbk168.com/gamedevjp/blackjack/server/go-modules/frame"
 	"gitlab.fbk168.com/gamedevjp/blackjack/server/go-modules/frame/code"
@@ -133,7 +131,6 @@ func NewS2CMemberInfo(name string, balance float64) frame.Frame {
 		Name:    name,
 		Balance: balance,
 	}
-	fmt.Println("MemberInfo:", obj)
 	return obj
 }
 
