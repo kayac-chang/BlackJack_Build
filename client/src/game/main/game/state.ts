@@ -290,7 +290,7 @@ function createHandMachine(id: SEAT, { handL, handR, fieldL, fieldR, results }: 
 
               return {
                 ...context.scores,
-                [pair]: points,
+                [pair]: parseInt(points),
               };
             }
 
@@ -304,7 +304,7 @@ function createHandMachine(id: SEAT, { handL, handR, fieldL, fieldR, results }: 
 
               return {
                 ...context.scores,
-                [pair]: points,
+                [pair]: parseInt(points),
               };
             }
 

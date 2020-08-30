@@ -14,7 +14,6 @@ import {
   updateSeats,
   editRoom,
   replaceBet,
-  updateHand,
 } from '../../store/actions';
 
 import {
@@ -32,6 +31,7 @@ import {
 } from '../types';
 import { pipe } from 'ramda';
 import { wait, looper } from '../../utils';
+import { SEAT } from '../../models';
 
 function updateHistory(data: GameProp) {
   const { room } = store.getState();
@@ -128,6 +128,25 @@ function prefix(prop: DealProp) {
 function onBegin(service: Service, prop: DealProp[]) {
   const hands = prop.map(pipe(prefix, toHand));
 
+  const group: Record<SEAT, Hand[]> = {
+    [SEAT.DEALER]: [],
+    [SEAT.A]: [],
+    [SEAT.B]: [],
+    [SEAT.C]: [],
+    [SEAT.D]: [],
+    [SEAT.E]: [],
+  };
+
+  for (const hand of hands) {
+    group[hand.seat].push(hand);
+  }
+
+  for (const [, _hands] of Object.entries(group)) {
+    if (hasAce(_hands)) {
+      _hands[_hands.length - 1].points = toPoints(_hands);
+    }
+  }
+
   store.dispatch(dealCard(hands));
 }
 
@@ -135,21 +154,49 @@ function hasAce(hands: Hand[]) {
   return hands.filter(({ card }) => card.rank === RANK.ACE).length;
 }
 
+function toPoints(hands: Hand[]) {
+  let min = 0;
+  let max = 0;
+
+  for (const hand of hands) {
+    if (hand.card.rank === RANK.ACE) {
+      min += 1;
+      max += max > 10 ? 1 : 11;
+    }
+
+    if (
+      [RANK.TWO, RANK.THREE, RANK.FOUR, RANK.FIVE, RANK.SIX, RANK.SEVEN, RANK.EIGHT, RANK.NINE].includes(hand.card.rank)
+    ) {
+      min += Number(hand.card.rank);
+      max += Number(hand.card.rank);
+    }
+
+    if ([RANK.TEN, RANK.JACK, RANK.QUEEN, RANK.KING].includes(hand.card.rank)) {
+      min += 10;
+      max += 10;
+    }
+  }
+
+  if (max > 21 || max === min) {
+    return String(min);
+  }
+
+  return `${min} / ${max}`;
+}
+
 function onDeal(service: Service, prop: DealProp) {
-  const newHand = toHand(prop);
-
-  store.dispatch(dealCard([newHand]));
-
   const { hand } = store.getState();
 
-  const hands = hand[newHand.seat];
-  const latest = hands[hands.length - 1];
+  const latest = toHand(prop);
+  const hands = hand[latest.seat];
 
-  if (hasAce(hands) && Number(latest.points) > 11) {
-    latest.points = `${Number(latest.points) - 11} / ${latest.points}`;
+  const pair = [...hands, latest].filter((hand) => hand.pair === latest.pair);
 
-    store.dispatch(updateHand(hand));
+  if (hasAce(pair)) {
+    latest.points = toPoints(pair);
   }
+
+  store.dispatch(dealCard([latest]));
 }
 
 let cancel: () => void;
