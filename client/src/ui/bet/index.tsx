@@ -60,7 +60,7 @@ export default function Bet() {
 
         <Timer total={20} countdown={countdown} />
 
-        <Controls enable={enable} />
+        <Controls enable={enable} setCommited={setCommited} />
       </div>
     </animated.div>
   );

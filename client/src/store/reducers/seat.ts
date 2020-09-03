@@ -112,15 +112,11 @@ export default function seatReducer(state = initialState, action: SeatAction | B
 
     const newState = {} as Seats;
 
-    for (const { seat, amount } of bets) {
+    for (const { seat } of bets) {
       if (seat === undefined) continue;
 
       if (!newState[seat]) {
         newState[seat] = { ...state[seat] };
-      }
-
-      if (!newState[seat].commited) {
-        newState[seat].commited = amount > 0;
       }
     }
 

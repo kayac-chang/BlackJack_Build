@@ -69,6 +69,10 @@ function placeBet (context: Context, event: Event) {
     return;
   }
 
+  if (user.balance - bet.chosen.amount < 0) {
+    return;
+  }
+
   store.dispatch(
     addBet({
       ...bet.chosen,
