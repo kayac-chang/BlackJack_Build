@@ -16,6 +16,8 @@ export function throttleBy<T>(func: () => Promise<T>) {
   //
   let fetching = false;
 
+  console.log('hi');
+
   return async function () {
     if (fetching) return;
 

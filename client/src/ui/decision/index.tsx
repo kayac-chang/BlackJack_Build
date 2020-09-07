@@ -38,7 +38,7 @@ export default function Decision() {
       return;
     }
 
-    setOpacity({ to: [{ opacity: 0 }, { display: 'none' }] });
+    setOpacity({ opacity: 0, display: 'none' });
   }, [setOpacity, isDealing, isUserTurn, hasCommited]);
 
   return (

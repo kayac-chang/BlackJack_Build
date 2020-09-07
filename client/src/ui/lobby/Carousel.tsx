@@ -6,61 +6,6 @@ import usePagination from '../components/pagination';
 import styles from './Lobby.module.scss';
 import Arrow from './Arrow';
 
-function useCarousel<T>(source: T[], itemsPerPage: number) {
-  const [isNext, setNext] = useState(true);
-  const { data, page, range, next, prev } = usePagination(source, itemsPerPage);
-
-  const [block, setBlock] = useState(false);
-
-  const { dispatch } = useSoundState();
-
-  const transitions = useTransition(page, {
-    from: { opacity: 0, transform: isNext ? `translate3d(100%,0,0)` : `translate3d(-100%,0,0)` },
-    enter: { opacity: 1, transform: `translate3d(0%,0,0)` },
-    leave: { opacity: 0, transform: isNext ? `translate3d(-100%,0,0)` : `translate3d(100%,0,0)` },
-    onStart: () => setBlock(true),
-    onRest: () => setBlock(false),
-  });
-
-  const _next = useCallback(() => {
-    if (block) return;
-    setNext(true);
-
-    next();
-
-    dispatch(play({ type: 'sfx', name: 'SFX_NAV_OPEN' }));
-  }, [next, block, dispatch]);
-
-  const _prev = useCallback(() => {
-    if (block) return;
-    setNext(false);
-
-    prev();
-
-    dispatch(play({ type: 'sfx', name: 'SFX_NAV_CLOSE' }));
-  }, [prev, block, dispatch]);
-
-  const gesture = useDrag(({ down, movement: [mx], direction: [xDir] }) => {
-    const trigger = Math.abs(mx) > 50;
-
-    if (down || !trigger) {
-      return;
-    }
-
-    xDir < 0 ? _next() : _prev();
-  });
-
-  return {
-    data,
-    page,
-    range,
-    transitions,
-    gesture,
-    next: _next,
-    prev: _prev,
-  };
-}
-
 type Props<T> = {
   data: T[];
   children: (data: T[]) => ReactNode;
@@ -69,7 +14,27 @@ type Props<T> = {
 };
 
 export default function Carousel<T>({ data: source, children, focus, setFocus }: Props<T>) {
-  const { data, page, range, transitions, next, prev, gesture } = useCarousel(source, 4);
+  const { dispatch } = useSoundState();
+  const [isNext, setNext] = useState(true);
+  const { data, page, range, next, prev } = usePagination(source, 4);
+
+  const gesture = useDrag(({ down, movement: [mx], direction: [xDir] }) => {
+    const trigger = Math.abs(mx) > 50;
+
+    if (down || !trigger) {
+      return;
+    }
+
+    if (xDir < 0) {
+      setNext(true);
+
+      next();
+    } else {
+      setNext(false);
+
+      prev();
+    }
+  });
 
   const onPrevClick = useCallback(() => {
     if (focus !== undefined) {
@@ -77,7 +42,10 @@ export default function Carousel<T>({ data: source, children, focus, setFocus }:
     }
 
     prev();
-  }, [focus, setFocus, prev]);
+    setNext(false);
+
+    dispatch(play({ type: 'sfx', name: 'SFX_NAV_OPEN' }));
+  }, [focus, setFocus, prev, dispatch]);
 
   const onNextClick = useCallback(() => {
     if (focus !== undefined) {
@@ -85,12 +53,21 @@ export default function Carousel<T>({ data: source, children, focus, setFocus }:
     }
 
     next();
-  }, [focus, setFocus, next]);
+    setNext(true);
+
+    dispatch(play({ type: 'sfx', name: 'SFX_NAV_CLOSE' }));
+  }, [focus, setFocus, next, dispatch]);
+
+  const transitions = useTransition(page, null, {
+    from: { opacity: 0, transform: isNext ? `translate3d(100%,0,0)` : `translate3d(-100%,0,0)` },
+    enter: { opacity: 1, transform: `translate3d(0%,0,0)` },
+    leave: { opacity: 0, transform: isNext ? `translate3d(-100%,0,0)` : `translate3d(100%,0,0)` },
+  });
 
   return (
     <>
-      {transitions((prop) => (
-        <animated.div className={styles.rooms} style={prop} {...gesture()}>
+      {transitions.map(({ props, key }) => (
+        <animated.div key={key} className={styles.rooms} style={props} {...gesture()}>
           {children(data)}
         </animated.div>
       ))}

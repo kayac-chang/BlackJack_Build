@@ -46,7 +46,7 @@ export default function Bet() {
       return;
     }
 
-    setOpacity({ to: [{ opacity: 0 }, { display: 'none' }] });
+    setOpacity({ opacity: 0, display: 'none' });
   }, [setOpacity, isBetting, isUserJoin, hasCommited]);
 
   const enable = isBetting && isUserJoin && !hasCommited;
