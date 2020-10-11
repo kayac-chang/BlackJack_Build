@@ -4,6 +4,7 @@ import TABLES from '../assets/table';
 
 export interface User {
   name: string;
+  reward: number;
   balance: number;
   totalBet: number;
   decisions: DECISION[];

@@ -50,6 +50,8 @@ function updateHistory(data: GameProp) {
 }
 
 function onBetStart(service: Service, data: GameProp) {
+  const { user } = store.getState();
+
   store.dispatch(
     betStart(
       toGame({
@@ -61,6 +63,7 @@ function onBetStart(service: Service, data: GameProp) {
 
   updateHistory(data);
 
+  store.dispatch(update({ ...user, reward: 0 }));
   store.dispatch(countdown(20));
   store.dispatch(updateSeats(toSeats(data.seats)));
 }
@@ -70,7 +73,7 @@ function onCountDown(service: Service, { expire }: CountDownProp) {
 }
 
 function onBetEnd(service: Service, { state }: GameProp) {
-  const { game, seat, bet, user } = store.getState();
+  const { game, seat, bet } = store.getState();
 
   store.dispatch(
     betEnd({
@@ -93,7 +96,6 @@ function onBetEnd(service: Service, { state }: GameProp) {
     return false;
   });
 
-  store.dispatch(update(user));
   store.dispatch(updateSeats(seat));
   store.dispatch(replaceBet(history));
 }
@@ -104,8 +106,12 @@ function onSettle(service: Service, data: GameProp) {
   for (const seat of data.seats) {
     if (Array.isArray(seat.piles) && seat.piles.length > 0) {
       seat.pay = seat.piles.reduce((acc, { pay }) => acc + pay, 0);
+
+      user.reward += seat.pay;
     }
   }
+
+  store.dispatch(update(user));
 
   store.dispatch(updateSeats(toSeats(data.seats)));
 

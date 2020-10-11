@@ -4,6 +4,7 @@ import { v4 } from 'uuid';
 
 const initialState: User = {
   name: v4(),
+  reward: 0,
   balance: 0,
   totalBet: 0,
   decisions: [],
