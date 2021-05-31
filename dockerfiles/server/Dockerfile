@@ -4,6 +4,7 @@ FROM golang:alpine as builder
 WORKDIR /bin
 COPY ./server .
 COPY .env .
+RUN go mod download github.com/YWJSonic/ServerUtility
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o run
 
 # Main
