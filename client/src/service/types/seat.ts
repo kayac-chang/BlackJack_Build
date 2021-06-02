@@ -45,7 +45,7 @@ export function toSeats(seats: SeatProp[]): Seats {
       [toSeatNum(no)]: {
         player: String(player),
         bet: Number(total_bet),
-        split: Boolean(piles && piles[piles.length - 1].bet),
+        split: false,
         pays: {
           [PAIR.L]: piles?.[0]?.pay || 0,
           [PAIR.R]: piles?.[1]?.pay || 0,

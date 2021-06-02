@@ -1,4 +1,4 @@
-import { S2C } from '../../models';
+import { S2C, Hand, RANK } from '../../models';
 import Service from '../service';
 
 import store from '../../store';
@@ -31,6 +31,7 @@ import {
 } from '../types';
 import { pipe } from 'ramda';
 import { wait, looper } from '../../utils';
+import { SEAT } from '../../models';
 
 function updateHistory(data: GameProp) {
   const { room } = store.getState();
@@ -49,6 +50,8 @@ function updateHistory(data: GameProp) {
 }
 
 function onBetStart(service: Service, data: GameProp) {
+  const { user } = store.getState();
+
   store.dispatch(
     betStart(
       toGame({
@@ -60,6 +63,7 @@ function onBetStart(service: Service, data: GameProp) {
 
   updateHistory(data);
 
+  store.dispatch(update({ ...user, reward: 0 }));
   store.dispatch(countdown(20));
   store.dispatch(updateSeats(toSeats(data.seats)));
 }
@@ -69,7 +73,7 @@ function onCountDown(service: Service, { expire }: CountDownProp) {
 }
 
 function onBetEnd(service: Service, { state }: GameProp) {
-  const { game, seat, bet, user } = store.getState();
+  const { game, seat, bet } = store.getState();
 
   store.dispatch(
     betEnd({
@@ -92,7 +96,6 @@ function onBetEnd(service: Service, { state }: GameProp) {
     return false;
   });
 
-  store.dispatch(update(user));
   store.dispatch(updateSeats(seat));
   store.dispatch(replaceBet(history));
 }
@@ -103,8 +106,12 @@ function onSettle(service: Service, data: GameProp) {
   for (const seat of data.seats) {
     if (Array.isArray(seat.piles) && seat.piles.length > 0) {
       seat.pay = seat.piles.reduce((acc, { pay }) => acc + pay, 0);
+
+      user.reward += seat.pay;
     }
   }
+
+  store.dispatch(update(user));
 
   store.dispatch(updateSeats(toSeats(data.seats)));
 
@@ -127,11 +134,75 @@ function prefix(prop: DealProp) {
 function onBegin(service: Service, prop: DealProp[]) {
   const hands = prop.map(pipe(prefix, toHand));
 
+  const group: Record<SEAT, Hand[]> = {
+    [SEAT.DEALER]: [],
+    [SEAT.A]: [],
+    [SEAT.B]: [],
+    [SEAT.C]: [],
+    [SEAT.D]: [],
+    [SEAT.E]: [],
+  };
+
+  for (const hand of hands) {
+    group[hand.seat].push(hand);
+  }
+
+  for (const [, _hands] of Object.entries(group)) {
+    if (hasAce(_hands)) {
+      _hands[_hands.length - 1].points = toPoints(_hands);
+    }
+  }
+
   store.dispatch(dealCard(hands));
 }
 
+function hasAce(hands: Hand[]) {
+  return hands.filter(({ card }) => card.rank === RANK.ACE).length;
+}
+
+function toPoints(hands: Hand[]) {
+  let min = 0;
+  let max = 0;
+
+  for (const hand of hands) {
+    if (hand.card.rank === RANK.ACE) {
+      min += 1;
+      max += max > 10 ? 1 : 11;
+    }
+
+    if (
+      [RANK.TWO, RANK.THREE, RANK.FOUR, RANK.FIVE, RANK.SIX, RANK.SEVEN, RANK.EIGHT, RANK.NINE].includes(hand.card.rank)
+    ) {
+      min += Number(hand.card.rank);
+      max += Number(hand.card.rank);
+    }
+
+    if ([RANK.TEN, RANK.JACK, RANK.QUEEN, RANK.KING].includes(hand.card.rank)) {
+      min += 10;
+      max += 10;
+    }
+  }
+
+  if (max > 21 || max === min) {
+    return String(min);
+  }
+
+  return `${min} / ${max}`;
+}
+
 function onDeal(service: Service, prop: DealProp) {
-  store.dispatch(dealCard([toHand(prop)]));
+  const { hand } = store.getState();
+
+  const latest = toHand(prop);
+  const hands = hand[latest.seat];
+
+  const pair = [...hands, latest].filter((hand) => hand.pair === latest.pair);
+
+  if (hasAce(pair)) {
+    latest.points = toPoints(pair);
+  }
+
+  store.dispatch(dealCard([latest]));
 }
 
 let cancel: () => void;

@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import styles from './Decision.module.scss';
 import { useSelector } from 'react-redux';
 import { AppState } from '../../store';
@@ -11,21 +11,16 @@ export default function Decision() {
   const user = useSelector((state: AppState) => state.user);
   const { state, countdown, turn } = useSelector((state: AppState) => state.game);
   const seat = useSelector((state: AppState) => state.seat);
+  const decisions = useSelector((state: AppState) => state.user.decisions);
 
   const isDealing = state === GAME_STATE.DEALING && countdown > 1;
   const isUserTurn = turn ? seat[turn.seat].player === user.name : false;
+  const hasCommited = !(decisions.length > 0);
 
-  const [hasCommited, setCommited] = useState(false);
   const [style, setOpacity] = useSpring(() => ({
     opacity: 0,
     display: 'none',
   }));
-
-  useEffect(() => {
-    const flag = user.decisions.length > 0;
-
-    setCommited(!flag);
-  }, [setCommited, user]);
 
   useLayoutEffect(() => {
     if (isDealing && isUserTurn && hasCommited) {
@@ -38,7 +33,7 @@ export default function Decision() {
       return;
     }
 
-    setOpacity({ to: [{ opacity: 0 }, { display: 'none' }] });
+    setOpacity({ opacity: 0, display: 'none' });
   }, [setOpacity, isDealing, isUserTurn, hasCommited]);
 
   return (
@@ -46,7 +41,7 @@ export default function Decision() {
       <div>
         <h3 className={styles.title}>make your decision</h3>
 
-        <Controls enable={isUserTurn && isDealing} />
+        <Controls enable={isUserTurn && isDealing} decisions={decisions} />
 
         <Timer total={10} countdown={countdown} />
       </div>

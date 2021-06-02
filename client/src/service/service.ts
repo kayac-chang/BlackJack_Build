@@ -2,6 +2,7 @@ import EventEmitter from 'eventemitter3';
 import { login } from './requests';
 import { S2C, C2S, Token } from '../models';
 import MUX from './mux';
+import { getDebug } from '../utils';
 
 interface Frame {
   cmd: S2C.ROOM | S2C.ROUND | S2C.SEAT | S2C.USER | C2S.CLIENT;
@@ -53,6 +54,8 @@ export default class Service extends EventEmitter {
     }
 
     const message = JSON.parse(atob(event.data)) as Frame;
+
+    if (getDebug()) console.log(message);
 
     const handler = MUX[message.cmd];
 

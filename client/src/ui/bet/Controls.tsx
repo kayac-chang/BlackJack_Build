@@ -11,9 +11,10 @@ import RES from '../../assets';
 
 type Props = {
   enable: boolean;
+  setCommited: (flag: boolean) => void;
 };
 
-export default function Controls({ enable }: Props) {
+export default function Controls ({ enable, setCommited }: Props) {
   const dispatch = useDispatch();
   const user = useSelector((state: AppState) => state.user);
   const seats = useSelector((state: AppState) => state.seat);
@@ -62,6 +63,8 @@ export default function Controls({ enable }: Props) {
         return;
       }
 
+      setCommited(true);
+
       await services.deal();
     }),
     [enable, history, countdown]
@@ -94,23 +97,20 @@ export default function Controls({ enable }: Props) {
     [seats, dispatch, enable, user, previous]
   );
 
-  const onDouble = useCallback(
-    () => {
-      if (countdown <= 2) {
-        return;
-      }
+  const onDouble = useCallback(() => {
+    if (countdown <= 2) {
+      return;
+    }
 
-      const newBet = history.map((bet) => ({ ...bet, amount: bet.amount * 2 }));
+    const newBet = history.map(bet => ({ ...bet, amount: bet.amount * 2 }));
 
-      const total = newBet.reduce((acc, { amount }) => acc + amount, 0)
+    const total = newBet.reduce((acc, { amount }) => acc + amount, 0);
 
-      if (maxBet > user.totalBet + total) {
-        dispatch(clearBet(user));
-        dispatch(replaceBet(newBet));
-      }
-    },
-    [dispatch, countdown, user, history, maxBet]
-  );
+    if (maxBet > user.totalBet + total) {
+      dispatch(clearBet(user));
+      dispatch(replaceBet(newBet));
+    }
+  }, [dispatch, countdown, user, history, maxBet]);
 
   return (
     <div className={styles.controls}>

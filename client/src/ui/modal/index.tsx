@@ -25,42 +25,46 @@ function Modal() {
     dispatch({ type: 'close' });
   }, [state, dispatch]);
 
-  const transitions = useTransition(state.open, {
+  const transitions = useTransition(state.open, null, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
     leave: { opacity: 0 },
     config: { duration: 150 },
   });
 
-  return transitions((prop, item) => {
-    if (!item) {
-      return <></>;
-    }
+  return (
+    <>
+      {transitions.map(({ item, props, key }) => {
+        if (!item) {
+          return undefined;
+        }
 
-    return (
-      <animated.div className={styles.modal} onClick={onCloseClick} style={prop}>
-        <div className={styles.content}>
-          <div className={styles.header}>
-            <h3>{state.title}</h3>
-          </div>
-          <div className={styles.body}>
-            <p>{state.msg}</p>
-          </div>
-          <div className={styles.footer}>
-            {state.onConfirm && (
-              <button className={styles.confirm} onClick={state.onConfirm}>
-                confirm
-              </button>
-            )}
+        return (
+          <animated.div key={key} className={styles.modal} onClick={onCloseClick} style={props}>
+            <div className={styles.content}>
+              <div className={styles.header}>
+                <h3>{state.title}</h3>
+              </div>
+              <div className={styles.body}>
+                <p>{state.msg}</p>
+              </div>
+              <div className={styles.footer}>
+                {state.onConfirm && (
+                  <button className={styles.confirm} onClick={state.onConfirm}>
+                    confirm
+                  </button>
+                )}
 
-            <button className={styles.close} onClick={onCloseClick}>
-              close
-            </button>
-          </div>
-        </div>
-      </animated.div>
-    );
-  });
+                <button className={styles.close} onClick={onCloseClick}>
+                  close
+                </button>
+              </div>
+            </div>
+          </animated.div>
+        );
+      })}
+    </>
+  );
 }
 
 function reducer(state: State, action: Action) {

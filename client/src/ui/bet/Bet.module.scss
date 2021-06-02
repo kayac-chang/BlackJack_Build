@@ -1,24 +1,14 @@
+@import '../styles/common.scss';
+
 .bet {
-  position: absolute;
-  top: 0;
-
-  width: 100%;
-  height: 100%;
-
-  text-shadow: 2px 2px 4px #000;
+  @extend .control-panel;
 
   & > div {
-    position: relative;
     top: 70px;
 
     @media (min-width: 1200px) {
       top: 120px;
     }
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
     & > * {
       margin-bottom: 8px;

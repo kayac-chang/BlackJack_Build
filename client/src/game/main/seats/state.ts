@@ -21,7 +21,7 @@ type Schema<T> =
 export type SeatState = State<Context, Event, any, Schema<Context>>;
 export type SeatService = Interpreter<Context, any, Event, Schema<Context>>;
 
-function updateOwner(context: Context, event: Event) {
+function updateOwner (context: Context, event: Event) {
   //
   if (event.type === 'JOIN') {
     context.owner = event.user;
@@ -34,17 +34,17 @@ function updateOwner(context: Context, event: Event) {
   return context.owner;
 }
 
-function canJoin(context: Context, event: Event) {
+function canJoin (context: Context, event: Event) {
   const { user, seat } = store.getState();
 
   return Object.values(seat).filter(({ player }) => player === user.name).length < 3;
 }
 
-function join(context: Context, event: Event) {
+function join (context: Context, event: Event) {
   services.joinSeat(context.id);
 }
 
-function canBet(context: Context, event: Event) {
+function canBet (context: Context, event: Event) {
   const { user, game } = store.getState();
 
   const isBetting = game.state === GAME_STATE.BETTING;
@@ -54,7 +54,7 @@ function canBet(context: Context, event: Event) {
   return isBetting && name === user.name;
 }
 
-function placeBet(context: Context, event: Event) {
+function placeBet (context: Context, event: Event) {
   const { game, bet, user, seat } = store.getState();
 
   if (!bet.chosen) {
@@ -69,6 +69,10 @@ function placeBet(context: Context, event: Event) {
     return;
   }
 
+  if (user.balance - bet.chosen.amount < 0) {
+    return;
+  }
+
   store.dispatch(
     addBet({
       ...bet.chosen,
@@ -78,7 +82,7 @@ function placeBet(context: Context, event: Event) {
   );
 }
 
-export function createSeatService(id: SEAT) {
+export function createSeatService (id: SEAT) {
   //
   const machine = createMachine<Context, Event, Schema<Context>>(
     {
@@ -98,6 +102,11 @@ export function createSeatService(id: SEAT) {
               cond: 'canJoin',
               actions: 'join',
             },
+            JOIN: [
+              //
+              { target: 'occupy.betting', cond: 'canBet' },
+              { target: 'occupy.normal' },
+            ],
           },
         },
 

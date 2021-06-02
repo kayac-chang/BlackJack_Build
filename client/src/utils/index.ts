@@ -2,42 +2,7 @@ export * from './device';
 export * from './format';
 export * from './check';
 export * from './react';
-
-export function isLocalStorageSupport() {
-  const test = 'test';
-
-  try {
-    localStorage.setItem(test, test);
-    localStorage.removeItem(test);
-    return true;
-  } catch (e) {
-    return false;
-  }
-}
-
-export function getURLParam(key: string) {
-  const url = new URL(window.location.href);
-
-  return url.searchParams.get(key) || undefined;
-}
-
-export async function getToken() {
-  const res = await fetch(`https://api.sunnyland.fun/v1/tokens`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Session: '8b674aec-156c-4894-a102-f3315272f626',
-    },
-    body: JSON.stringify({
-      game: 'catpunch',
-      username: 'mouse1',
-    }),
-  });
-
-  const { data } = await res.json();
-
-  return data.token.access_token;
-}
+export * from './url';
 
 export function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
